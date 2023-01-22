@@ -619,6 +619,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1ce6eaf53fd85f47a1092e14fc4699a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _board: {fileID: 2021031278}
 --- !u!114 &208288405
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3634,10 +3635,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 645f848c4c64c024cbc5b7b1e9a21576, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _playerMoney: {fileID: 0}
   _tileDatas:
   - {fileID: 11400000, guid: e20ae6f156541184d9bf7cba209cb915, type: 2}
   - {fileID: 11400000, guid: 91d93e5e3c27c464f806042c97bfd5e0, type: 2}
   - {fileID: 11400000, guid: e8ea3911573dd34429b7845298c5cde4, type: 2}
+  - {fileID: 11400000, guid: b7779e453e59e144e9d612cd659cff9d, type: 2}
+  - {fileID: 11400000, guid: e496c032064c1d64a858da9f53579cb5, type: 2}
   _tile: {fileID: 5133725158327973439, guid: 295ca50b106bdba4792649d9280fde49, type: 3}
   _xSize: 10
   _ySize: 10

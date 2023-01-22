@@ -7,8 +7,6 @@ using UnityEngine.Events;
 
 public class Tile : MonoBehaviour 
 {
-    //private static Tile _previousSelected = null;
-
     private Button _button;
 	private bool _isSelected = false;
     private bool _matchFound = false;
@@ -17,15 +15,11 @@ public class Tile : MonoBehaviour
     private Vector2[] _verticalDirections = new Vector2[] { Vector2.up, Vector2.down };
     private Vector2[] _horizontalDirections = new Vector2[] { Vector2.left, Vector2.right };
 
-    public event UnityAction FoundMatch;
     public TileScriptableData Data { get; private set; }
     public Image Image { get; private set; }
     public Vector2 Index { get; private set; }
-    //public int Xindex { get; private set; }
-    //public int Yindex { get; private set; }
 
-
-    
+    public event UnityAction<float> FoundMatch;
 
     private void Awake() 
 	{
@@ -108,9 +102,6 @@ public class Tile : MonoBehaviour
         }
         else
         {
-            //TODO: check adjacentment of previous selected tile.
-            // If true - swap tiles and launch match finding logic.
-            // If false - deselect previous selected and set current tile as selected.
 
             if (TryGetAllAdjacentTiles(_adjacentDirections))
             {
@@ -119,7 +110,6 @@ public class Tile : MonoBehaviour
                 MatchBoard.Instance.PreviousSelected.ClearAllMatches();
                 MatchBoard.Instance.PreviousSelected.Deselect();
                 ClearAllMatches();
-                //TODO: launch match finding logic here
             }
             else
             {
@@ -166,10 +156,10 @@ public class Tile : MonoBehaviour
 		if (_matchFound) 
 		{
 			Debug.Log("Match");
+            FoundMatch?.Invoke(Data.BaseReward);
             SetData(null);
 			_matchFound = false;
-
-            FoundMatch?.Invoke();
+            MatchBoard.Instance.StartFindNullTiles();
 		}
 	}
 
@@ -213,7 +203,6 @@ public class Tile : MonoBehaviour
 
         while (tileToCheck.Data != null && tileToCheck.Data.TileType == Data.TileType)
         {
-            Debug.Log(directionToMatchFind);
             matchingTiles.Add(tileToCheck);
             matchDepth++;
             directionToMatchFind = FindIndex(castDir, matchDepth);

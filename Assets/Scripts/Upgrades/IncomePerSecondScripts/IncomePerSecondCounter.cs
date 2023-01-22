@@ -16,7 +16,7 @@ public class IncomePerSecondCounter : IncomeCounterBase
     private void Start()
     {
         _periodicIncome = _startPeriodicIncome;
-        StartCoroutine(AppllyIncome());
+        //StartCoroutine(AppllyIncome());
     }
 
     private IEnumerator AppllyIncome()

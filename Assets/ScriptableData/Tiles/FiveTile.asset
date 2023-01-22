@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea8ab12d07b61df4c8442676e2d74889, type: 3}
+  m_Name: FiveTile
+  m_EditorClassIdentifier: 
+  _tile: {fileID: 1089009211, guid: 40db09c91da2dfe49a784aeb96dc04a5, type: 3}
+  _baseReward: 3
+  _tileType: 4

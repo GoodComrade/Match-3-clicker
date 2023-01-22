@@ -1,23 +1,28 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.Events;
 
 public class MatchBoard : MonoBehaviour
 {
 	public static MatchBoard Instance;
 
+	[SerializeField] private PlayerMoney _playerMoney;
 	[SerializeField] private List<TileScriptableData> _tileDatas = new List<TileScriptableData>();
 	[SerializeField] private Tile _tile;
 	[SerializeField] private int _xSize;
 	[SerializeField] private int _ySize;
 
 	private Tile[,] _tiles;
+	private Coroutine _findNullTilesCoroutine;
 
     public Tile PreviousSelected { get; private set; }
 
     public bool IsShifting { get; private set; }
 
 	public Tile[,] Tiles => _tiles;
+
+	public event UnityAction<float> SendReward;
 
 	private void Start () 
 	{
@@ -28,6 +33,25 @@ public class MatchBoard : MonoBehaviour
 		Vector2 offset = new Vector2(tileRect.sizeDelta.x, tileRect.sizeDelta.y);
         CreateBoard(offset.x, offset.y);
     }
+
+	private void OnDisable()
+	{
+		for(int x = 0; x < _tiles.GetLength(0) - 1; x++)
+		{
+			for(int y = 0; y < _tiles.GetLength(1) - 1; y++)
+			{
+				_tiles[x, y].FoundMatch -= OnMatchFound;
+			}
+		}
+	}
+
+	public void StartFindNullTiles()
+	{
+		if (_findNullTilesCoroutine != null)
+			StopCoroutine(_findNullTilesCoroutine);
+
+		_findNullTilesCoroutine = StartCoroutine(FindNullTiles());
+	}
 
 	public void SetPreviousSelected(Tile tile)
 	{
@@ -61,23 +85,28 @@ public class MatchBoard : MonoBehaviour
 
                 TileScriptableData newTileData = possibleCharacters[Random.Range(0, possibleCharacters.Count)];
 				newTile.SetData(newTileData);
+				newTile.FoundMatch += OnMatchFound;
+
 				previousLeft[y] = newTileData;
 				previousBelow = newTileData;
 			}
         }
     }
 
-	//refactor this
-	/*public IEnumerator FindNullTiles() 
+	private void OnMatchFound(float reward)
+	{
+		SendReward?.Invoke(reward);
+	}
+
+	public IEnumerator FindNullTiles() 
 	{
 		for (int x = 0; x < _xSize; x++) 
 		{
 			for (int y = 0; y < _ySize; y++) 
 			{
-				if (_tiles[x, y].HasNoImage()) 
+				if (_tiles[x, y].Data == null) 
 				{
-					ShiftTilesDown(x, y);
-                    yield return null;
+                    yield return StartCoroutine(ShiftTilesDown(x, y));
                     break;
                 }
 			}
@@ -85,8 +114,7 @@ public class MatchBoard : MonoBehaviour
 
 		CheckOtherMatches();
     }
-
-    //refactor this
+	
     private void CheckOtherMatches()
 	{
         for (int x = 0; x < _xSize; x++)
@@ -96,10 +124,10 @@ public class MatchBoard : MonoBehaviour
                 _tiles[x, y].ClearAllMatches();
             }
         }
-    }*/
+    }
 
 	//refactor this
-	private void ShiftTilesDown(int x, int yStart, float shiftDelay = 0.03f) 
+	private IEnumerator ShiftTilesDown(int x, int yStart, float shiftDelay = 0.03f) 
 	{
 		IsShifting = true;
 		List<Tile> renders = new List<Tile>();
@@ -119,38 +147,32 @@ public class MatchBoard : MonoBehaviour
 
 		for (int i = 0; i < nullCount; i++) 
 		{
-			//yield return new WaitForSeconds(shiftDelay);
+			yield return new WaitForSeconds(shiftDelay);
 
 			for (int k = 0; k < renders.Count - 1; k++) 
 			{
                 renders[k].SetData(renders[k + 1].Data);
-				renders[k + 1].SetData(GetNewSpriteData(x, _ySize - 1));
+				renders[k + 1].SetData(GetNewTileData(x, _ySize - 1));
 			}
 		}
 
 		IsShifting = false;
 	}
 
-	private TileScriptableData GetNewSpriteData(int x, int y) 
+	private TileScriptableData GetNewTileData(int x, int y) 
 	{
-		List<TileScriptableData> possibleCharacters = new List<TileScriptableData>();
-		possibleCharacters.AddRange(_tileDatas);
+		List<TileScriptableData> possibleData = new List<TileScriptableData>();
+		possibleData.AddRange(_tileDatas);
 
-		if (x > 0) 
-		{
-			possibleCharacters.Remove(_tiles[x - 1, y].Data);
-		}
+		if (x > 0)
+            possibleData.Remove(_tiles[x - 1, y].Data);
 
-		if (x < _xSize - 1) 
-		{
-			possibleCharacters.Remove(_tiles[x + 1, y].Data);
-		}
+        if (x < _xSize - 1)
+            possibleData.Remove(_tiles[x + 1, y].Data);
 
-		if (y > 0) 
-		{
-			possibleCharacters.Remove(_tiles[x, y - 1].Data);
-		}
+        if (y > 0)
+            possibleData.Remove(_tiles[x, y - 1].Data);
 
-        return possibleCharacters[Random.Range(0, possibleCharacters.Count)];
+        return possibleData[Random.Range(0, possibleData.Count)];
     }
 }

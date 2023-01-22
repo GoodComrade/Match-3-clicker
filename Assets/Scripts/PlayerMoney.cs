@@ -5,6 +5,7 @@ using UnityEngine.Events;
 
 public class PlayerMoney : MonoBehaviour
 {
+    [SerializeField] private MatchBoard _board;
     public float TotalAmount { get; private set; }
 
     private IncomePerSecondCounter _counter;
@@ -19,11 +20,13 @@ public class PlayerMoney : MonoBehaviour
     private void OnEnable()
     {
         _counter.GetIncome += AddMoney;
+        _board.SendReward += AddMoney;
     }
 
     private void OnDisable()
     {
         _counter.GetIncome -= AddMoney;
+        _board.SendReward -= AddMoney;
     }
 
     private void AddMoney(float money)
