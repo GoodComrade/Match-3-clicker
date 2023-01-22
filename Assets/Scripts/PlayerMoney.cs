@@ -33,6 +33,8 @@ public class PlayerMoney : MonoBehaviour
     {
         TotalAmount += money;
         TotalAmount = Mathf.Round(TotalAmount * 10f) / 10f;
+
+        MoneyChanged?.Invoke(TotalAmount);
     }
 
     public void BuyUpgrade(float cost)
