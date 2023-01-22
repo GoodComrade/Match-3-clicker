@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using UnityEngine.Events;
 
 public class Tile : MonoBehaviour 
 {
@@ -12,17 +13,19 @@ public class Tile : MonoBehaviour
 	private bool _isSelected = false;
     private bool _matchFound = false;
 
+    private Vector2[] _adjacentDirections = new Vector2[] { Vector2.up, Vector2.down, Vector2.left, Vector2.right };
+    private Vector2[] _verticalDirections = new Vector2[] { Vector2.up, Vector2.down };
+    private Vector2[] _horizontalDirections = new Vector2[] { Vector2.left, Vector2.right };
+
+    public event UnityAction FoundMatch;
     public TileScriptableData Data { get; private set; }
     public Image Image { get; private set; }
-
     public Vector2 Index { get; private set; }
     //public int Xindex { get; private set; }
     //public int Yindex { get; private set; }
 
 
-    private Vector2[] _adjacentDirections = new Vector2[] { Vector2.up, Vector2.down, Vector2.left, Vector2.right };
-    private Vector2[] _verticalDirections = new Vector2[] { Vector2.up, Vector2.down};
-    private Vector2[] _horizontalDirections = new Vector2[] { Vector2.left, Vector2.right };
+    
 
     private void Awake() 
 	{
@@ -45,8 +48,16 @@ public class Tile : MonoBehaviour
 
 	public void SetData(TileScriptableData data)
 	{
-        Data = data;
-        Image.sprite = data.Tile;
+        if(data == null)
+        {
+            Data = null;
+            Image.sprite = null;
+        }
+        else
+        {
+            Data = data;
+            Image.sprite = data.Tile;
+        }
 	}
 
 	/*public Sprite GetSprite()
@@ -105,7 +116,9 @@ public class Tile : MonoBehaviour
             {
                 Debug.Log("Adjacent");
                 SwapSprite(MatchBoard.Instance.PreviousSelected);
+                MatchBoard.Instance.PreviousSelected.ClearAllMatches();
                 MatchBoard.Instance.PreviousSelected.Deselect();
+                ClearAllMatches();
                 //TODO: launch match finding logic here
             }
             else
@@ -142,79 +155,78 @@ public class Tile : MonoBehaviour
             return false;
     }
 
-    //refactor this
     public void ClearAllMatches() 
 	{
 		if (Image.sprite == null)
 			return;
 
-		ClearMatch(new Vector2[2] { Vector2.left, Vector2.right });
-		ClearMatch(new Vector2[2] { Vector2.up, Vector2.down });
+		ClearMatch(_horizontalDirections);
+		ClearMatch(_verticalDirections);
 
 		if (_matchFound) 
 		{
 			Debug.Log("Match");
-            Image.sprite = null;
+            SetData(null);
 			_matchFound = false;
 
-			//MatchBoard.Instance.StartFindNullTiles();
+            FoundMatch?.Invoke();
 		}
 	}
 
-    //refactor this
     private void ClearMatch(Vector2[] paths)
     {
         List<Tile> matchingTiles = new List<Tile>();
 
         for (int i = 0; i < paths.Length; i++)
         {
-            //matchingTiles.AddRange(FindMatch(paths[i]));
+            matchingTiles.AddRange(FindMatch(paths[i]));
         }
+
+        if (matchingTiles.Count < 0 || matchingTiles == null)
+            return;
 
         if (matchingTiles.Count >= 2)
         {
             for (int i = 0; i < matchingTiles.Count; i++)
             {
-                matchingTiles[i].Image.sprite = null;
+                matchingTiles[i].SetData(null);
             }
 
             _matchFound = true;
         }
     }
 
-    //refactor this
-    /*private List<Tile> FindMatch(Vector2 castDir)
+    private List<Tile> FindMatch(Vector2 castDir)
     {
         int matchDepth = 1;
-        List<Tile> matchingTiles = new List<Tile>();
+        Tile[,] allTiles = MatchBoard.Instance.Tiles;
+        Vector2 maxLenght = new Vector2(allTiles.GetLength(0) - 1, allTiles.GetLength(1) - 1);
+        List <Tile> matchingTiles = new List<Tile>();
 
-        Vector2 directionToMatchFind = SetDirectionToMatchFind(castDir, matchDepth);
-        Tile tileToCheck = MatchBoard.Instance.GetTile((int)directionToMatchFind.x, (int)directionToMatchFind.y);
+        Vector2 directionToMatchFind = FindIndex(castDir, matchDepth);
 
-        while (tileToCheck != null && tileToCheck.GetSprite() == Image.sprite)
+        if (directionToMatchFind.x > maxLenght.x || directionToMatchFind.y > maxLenght.y
+                || (directionToMatchFind.x < 0 || directionToMatchFind.y < 0))
+            return matchingTiles;
+
+        Tile tileToCheck = allTiles[(int)directionToMatchFind.x, (int)directionToMatchFind.y];
+
+        while (tileToCheck.Data != null && tileToCheck.Data.TileType == Data.TileType)
         {
             Debug.Log(directionToMatchFind);
             matchingTiles.Add(tileToCheck);
             matchDepth++;
-            directionToMatchFind = SetDirectionToMatchFind(castDir, matchDepth);
-            tileToCheck = MatchBoard.Instance.GetTile((int)directionToMatchFind.x, (int)directionToMatchFind.y);
+            directionToMatchFind = FindIndex(castDir, matchDepth);
+
+            if (directionToMatchFind.x > maxLenght.x || directionToMatchFind.y > maxLenght.y
+                || (directionToMatchFind.x < 0 || directionToMatchFind.y < 0))
+                break;
+
+            tileToCheck = allTiles[(int)directionToMatchFind.x, (int)directionToMatchFind.y];
         }
 
         return matchingTiles;
-    }*/
-
-    /*private Vector2 SetDirectionToMatchFind(Vector2 castDir, int castRange)
-	{
-        Vector2 directionToMatchFind = new Vector2();
-
-        if (castDir == Vector2.up || castDir == Vector2.down)
-            directionToMatchFind = new Vector2(Xindex, FindIndex(castDir, castRange));
-
-        if (castDir == Vector2.left || castDir == Vector2.right)
-            directionToMatchFind = new Vector2(FindIndex(castDir, castRange), Yindex);
-
-		return directionToMatchFind;
-    }*/
+    }
 
 	private Vector2 FindIndex(Vector2 castDir, int castRange)
 	{
@@ -240,10 +252,10 @@ public class Tile : MonoBehaviour
         }
 
 		if (tempIndex.x < 0)
-			tempIndex.x = 0;
+			tempIndex.x = -1;
 
         if (tempIndex.y < 0)
-            tempIndex.y = 0;
+            tempIndex.y = -1;
 
         return tempIndex;
     }

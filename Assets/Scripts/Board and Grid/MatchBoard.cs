@@ -17,6 +17,8 @@ public class MatchBoard : MonoBehaviour
 
     public bool IsShifting { get; private set; }
 
+	public Tile[,] Tiles => _tiles;
+
 	private void Start () 
 	{
 		Instance = GetComponent<MatchBoard>();
@@ -31,23 +33,6 @@ public class MatchBoard : MonoBehaviour
 	{
 		PreviousSelected = tile;
 	}
-
-    public Tile GetTile(int x, int y)
-    {
-        if (x > _tiles.GetLength(0) - 1)
-			x = _tiles.GetLength(0) - 1;
-
-		if(x < 0)
-			x = 0;
-
-		if(y > _tiles.GetLength(1) - 1)
-			y = _tiles.GetLength(1) - 1;
-
-		if(y < 0)
-			y = 0;
-
-        return _tiles[x, y];
-    }
 
     private void CreateBoard (float xOffset, float yOffset) 
 	{
@@ -83,7 +68,7 @@ public class MatchBoard : MonoBehaviour
     }
 
 	//refactor this
-	public IEnumerator FindNullTiles() 
+	/*public IEnumerator FindNullTiles() 
 	{
 		for (int x = 0; x < _xSize; x++) 
 		{
@@ -111,7 +96,7 @@ public class MatchBoard : MonoBehaviour
                 _tiles[x, y].ClearAllMatches();
             }
         }
-    }
+    }*/
 
 	//refactor this
 	private void ShiftTilesDown(int x, int yStart, float shiftDelay = 0.03f) 
