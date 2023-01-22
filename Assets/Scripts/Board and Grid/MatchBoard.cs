@@ -93,10 +93,7 @@ public class MatchBoard : MonoBehaviour
         }
     }
 
-	private void OnMatchFound(float reward)
-	{
-		SendReward?.Invoke(reward);
-	}
+	
 
 	public IEnumerator FindNullTiles() 
 	{
@@ -174,5 +171,10 @@ public class MatchBoard : MonoBehaviour
             possibleData.Remove(_tiles[x, y - 1].Data);
 
         return possibleData[Random.Range(0, possibleData.Count)];
+    }
+
+    private void OnMatchFound(float reward)
+    {
+        SendReward?.Invoke(reward);
     }
 }

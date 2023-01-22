@@ -54,21 +54,10 @@ public class Tile : MonoBehaviour
         }
 	}
 
-	/*public Sprite GetSprite()
-	{
-		if(Image.sprite != null)
-			return Image.sprite;
-		else
-			return null;
-	}*/
-
-	public bool HasNoImage()
-	{
-		if (Image.sprite == null)
-			return true;
-		else
-			return false;
-	}
+    public void InvokeRewarding()
+    {
+        FoundMatch?.Invoke(Data.BaseReward);
+    }
 
 	private void Select() 
 	{
@@ -82,7 +71,7 @@ public class Tile : MonoBehaviour
         MatchBoard.Instance.SetPreviousSelected(null);
     }
 
-	void OnSelected() 
+	private void OnSelected() 
 	{
         Tile previousSelected = MatchBoard.Instance.PreviousSelected;
 
@@ -155,8 +144,8 @@ public class Tile : MonoBehaviour
 
 		if (_matchFound) 
 		{
-			Debug.Log("Match");
-            FoundMatch?.Invoke(Data.BaseReward);
+            InvokeRewarding();
+            Debug.Log("Match");
             SetData(null);
 			_matchFound = false;
             MatchBoard.Instance.StartFindNullTiles();
@@ -177,8 +166,10 @@ public class Tile : MonoBehaviour
 
         if (matchingTiles.Count >= 2)
         {
+
             for (int i = 0; i < matchingTiles.Count; i++)
             {
+                matchingTiles[i].InvokeRewarding();
                 matchingTiles[i].SetData(null);
             }
 
