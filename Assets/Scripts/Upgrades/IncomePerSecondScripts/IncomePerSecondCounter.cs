@@ -13,8 +13,23 @@ public class IncomePerSecondCounter : IncomeCounterBase
 
     public event UnityAction<float> GetIncome;
 
-    private void Start()
+    private void Awake()
     {
+        InitializeUpgrades();
+    }
+
+    protected override void InitializeUpgrades()
+    {
+        base.InitializeUpgrades();
+
+        for (int i = 0; i < UpgradesData.Count; i++)
+        {
+            UpgradeToastUI upgrade = Instantiate(ToastPrefab, ToastSpawnPoint);
+            IncomePerSecondUpgrade ips = upgrade.AddComponent<IncomePerSecondUpgrade>();
+            ips.Init(Money, UpgradesData[i]);
+            Upgrades.Add(ips);
+        }
+
         _periodicIncome = _startPeriodicIncome;
         StartCoroutine(AppllyIncome());
     }

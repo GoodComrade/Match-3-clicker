@@ -11,13 +11,13 @@ public class UpgradeToastUI : MonoBehaviour
     [SerializeField] private TMP_Text _multiplierText;
     [SerializeField] private TMP_Text _titleText;
 
-    private IncomePerSecondUpgrade _toastLogic;
+    private IncomeUpgradeBase _toastLogic;
     private TMP_Text _buttonText;
     private CanvasGroup _visual;
 
     private void Start()
     {
-        _toastLogic = GetComponent<IncomePerSecondUpgrade>();
+        _toastLogic = GetComponent<IncomeUpgradeBase>();
         _buttonText = _upgradeButton.GetComponentInChildren<TMP_Text>();
         _visual = GetComponentInChildren<CanvasGroup>();
 
@@ -27,6 +27,7 @@ public class UpgradeToastUI : MonoBehaviour
             _titleText.text = _toastLogic.Data.Title;
             _multiplierText.text = _toastLogic.Data.BaseMultiplier.ToString();
             _buttonText.text = _toastLogic.Data.BaseCost.ToString();
+            _upgradeButton.onClick.AddListener(_toastLogic.IncreaseMultiplier);
         }
     }
 
@@ -46,10 +47,10 @@ public class UpgradeToastUI : MonoBehaviour
         _visual.alpha = 0.5f;
     }
 
-    private void OnDisable()
+    /*private void OnDisable()
     {
         _toastLogic.ValuesUpdated -= OnValuesChanged;
-    }
+    }*/
 
     private void OnValuesChanged(float cost, float multiplier)
     {

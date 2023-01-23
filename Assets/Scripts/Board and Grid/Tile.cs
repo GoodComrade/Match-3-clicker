@@ -30,10 +30,10 @@ public class Tile : MonoBehaviour
 			_button.onClick.AddListener(OnSelected);
     }
 
-	private void OnDisable()
+	/*private void OnDisable()
 	{
 		_button.onClick.RemoveListener(OnSelected);	
-	}
+	}*/
 
 	public void SetIndex(int x, int y)
 	{

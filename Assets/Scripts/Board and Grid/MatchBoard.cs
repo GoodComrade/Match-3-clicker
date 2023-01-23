@@ -34,7 +34,7 @@ public class MatchBoard : MonoBehaviour
         CreateBoard(offset.x, offset.y);
     }
 
-	private void OnDisable()
+	/*private void OnDisable()
 	{
 		for(int x = 0; x < _tiles.GetLength(0) - 1; x++)
 		{
@@ -43,7 +43,7 @@ public class MatchBoard : MonoBehaviour
 				_tiles[x, y].FoundMatch -= OnMatchFound;
 			}
 		}
-	}
+	}*/
 
 	public void StartFindNullTiles()
 	{

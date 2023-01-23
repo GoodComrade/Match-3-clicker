@@ -2,17 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class IncomePerMatchUpgrade : MonoBehaviour
+public class IncomePerMatchUpgrade : IncomeUpgradeBase
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    //TODO: add here increase tile income logic
+    // It shoud be applied by type of upgrade 
+    /* types of upgrade: 
+     * 1. certain tile upgrade type
+     * 2. match strick upgrade type
+     * 3. match length upgrade type
+     * 4. opener new tile upgrade type
+     */
 }

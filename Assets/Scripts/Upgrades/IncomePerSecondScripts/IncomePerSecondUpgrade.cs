@@ -3,59 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class IncomePerSecondUpgrade : MonoBehaviour
+public class IncomePerSecondUpgrade : IncomeUpgradeBase
 {
-    private UpgradeScriptableData _data;
-
-    private bool _isBuyed;
-
-    public UpgradeScriptableData Data => _data;
-    public bool IsBuyed => _isBuyed;
-    public float Multiplier {get; private set; }
-    public float UpgradeCost { get; private set; }
-    public PlayerMoney Money { get; private set; }
-
-    public event UnityAction<float, float> ValuesUpdated;
-
-    public void Init(PlayerMoney money, UpgradeScriptableData data)
-    {
-        Multiplier = data.BaseMultiplier;
-        Money = money;
-        UpgradeCost = data.BaseCost;
-        _data = data;
-        _isBuyed = false;
-    }
-
-    public void IncreaseMultiplier()
-    {
-        Money.BuyUpgrade(UpgradeCost);
-
-        if(_isBuyed)
-        {
-            UpgradeCost *= Multiplier;
-            Multiplier *= _data.BaseMultiplier;
-            RoundValues();
-        }
-        
-        ValuesUpdated?.Invoke(UpgradeCost, Multiplier);
-
-        if(_isBuyed == false)
-            _isBuyed = true;
-    }
-
-    public float GetTotalMultiplier()
-    {
-        return Multiplier;
-    }
-
-    public double GetTotalMoney()
-    {
-        return Money.TotalAmount;
-    }
-
-    private void RoundValues()
-    {
-        UpgradeCost = Mathf.Round(UpgradeCost * 100f) / 100f;
-        Multiplier = Mathf.Round(Multiplier * 100f) / 100f;
-    }
+    //TODO: add here increase per tick income logic
+    // It shoud be applied by type of upgrade 
+    /* types of upgrade: 
+     * 1. tick rate type
+     * 2. per tick income type
+     * 3. imagine other types later
+     */
 }
