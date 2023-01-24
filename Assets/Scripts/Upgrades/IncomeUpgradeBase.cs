@@ -33,7 +33,7 @@ public abstract class IncomeUpgradeBase : MonoBehaviour
         if (_isBuyed)
             Multiplier *= _data.BaseMultiplier;
 
-        UpgradeCost *= Multiplier;
+        UpgradeCost += UpgradeCost * Multiplier;
         RoundValues();
 
         ValuesUpdated?.Invoke(UpgradeCost, Multiplier);
