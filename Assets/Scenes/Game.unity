@@ -564,6 +564,7 @@ GameObject:
   - component: {fileID: 208288402}
   - component: {fileID: 208288403}
   - component: {fileID: 208288405}
+  - component: {fileID: 208288406}
   - component: {fileID: 208288404}
   m_Layer: 0
   m_Name: GameFlow
@@ -618,7 +619,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1ce6eaf53fd85f47a1092e14fc4699a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _board: {fileID: 2021031278}
 --- !u!114 &208288405
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -637,6 +637,28 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 243dd149c33753c47aa162246f9d54ae, type: 2}
   - {fileID: 11400000, guid: 5bd0adc04c7a7a84aab1453ba7ae2dfc, type: 2}
   - {fileID: 11400000, guid: f5f3a121e2f55f445943239f57866350, type: 2}
+--- !u!114 &208288406
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 208288401}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 645f848c4c64c024cbc5b7b1e9a21576, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _origin: {fileID: 2021031277}
+  _tileDatas:
+  - {fileID: 11400000, guid: e20ae6f156541184d9bf7cba209cb915, type: 2}
+  - {fileID: 11400000, guid: 91d93e5e3c27c464f806042c97bfd5e0, type: 2}
+  - {fileID: 11400000, guid: e8ea3911573dd34429b7845298c5cde4, type: 2}
+  - {fileID: 11400000, guid: b7779e453e59e144e9d612cd659cff9d, type: 2}
+  - {fileID: 11400000, guid: e496c032064c1d64a858da9f53579cb5, type: 2}
+  _tile: {fileID: 5133725158327973439, guid: 295ca50b106bdba4792649d9280fde49, type: 3}
+  _xSize: 6
+  _ySize: 6
 --- !u!1 &208545207
 GameObject:
   m_ObjectHideFlags: 0
@@ -1877,8 +1899,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.5, y: -71.50003}
-  m_SizeDelta: {x: -39, y: -183}
+  m_AnchoredPosition: {x: 0, y: -71.500015}
+  m_SizeDelta: {x: -90, y: -183.00003}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &999654127
 MonoBehaviour:
@@ -3629,7 +3651,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2021031277}
-  - component: {fileID: 2021031278}
   m_Layer: 5
   m_Name: origin
   m_TagString: Untagged
@@ -3654,31 +3675,9 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 85, y: 75}
-  m_SizeDelta: {x: 145, y: 145}
+  m_AnchoredPosition: {x: 120, y: 90}
+  m_SizeDelta: {x: 150, y: 150}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &2021031278
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2021031276}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 645f848c4c64c024cbc5b7b1e9a21576, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _playerMoney: {fileID: 0}
-  _tileDatas:
-  - {fileID: 11400000, guid: e20ae6f156541184d9bf7cba209cb915, type: 2}
-  - {fileID: 11400000, guid: 91d93e5e3c27c464f806042c97bfd5e0, type: 2}
-  - {fileID: 11400000, guid: e8ea3911573dd34429b7845298c5cde4, type: 2}
-  - {fileID: 11400000, guid: b7779e453e59e144e9d612cd659cff9d, type: 2}
-  - {fileID: 11400000, guid: e496c032064c1d64a858da9f53579cb5, type: 2}
-  _tile: {fileID: 5133725158327973439, guid: 295ca50b106bdba4792649d9280fde49, type: 3}
-  _xSize: 7
-  _ySize: 6
 --- !u!1 &2042217884
 GameObject:
   m_ObjectHideFlags: 0

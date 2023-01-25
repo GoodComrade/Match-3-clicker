@@ -7,13 +7,14 @@ public class MatchBoard : MonoBehaviour
 {
 	public static MatchBoard Instance;
 
-	[SerializeField] private PlayerMoney _playerMoney;
+	[SerializeField] private RectTransform _origin;
 	[SerializeField] private List<TileScriptableData> _tileDatas = new List<TileScriptableData>();
 	[SerializeField] private Tile _tile;
 	[SerializeField] private int _xSize;
 	[SerializeField] private int _ySize;
 
-	private Tile[,] _tiles;
+    private PlayerMoney _playerMoney;
+    private Tile[,] _tiles;
 	private Coroutine _findNullTilesCoroutine;
 
     public Tile PreviousSelected { get; private set; }
@@ -27,10 +28,12 @@ public class MatchBoard : MonoBehaviour
 	private void Start () 
 	{
 		Instance = GetComponent<MatchBoard>();
+		_playerMoney = GetComponent<PlayerMoney>();
 
 		RectTransform tileRect = _tile.GetComponent<RectTransform>();
+		tileRect.sizeDelta = _origin.sizeDelta;
 
-		Vector2 offset = new Vector2(tileRect.sizeDelta.x, tileRect.sizeDelta.y);
+		Vector2 offset = new Vector2(_origin.sizeDelta.x, _origin.sizeDelta.y);
         CreateBoard(offset.x, offset.y);
     }
 
@@ -73,12 +76,14 @@ public class MatchBoard : MonoBehaviour
 		{
 			for (int y = 0; y < _ySize; y++) 
 			{
-				Tile newTile = Instantiate(_tile, new Vector3(startX + (xOffset * x), startY + (yOffset * y), 0), _tile.transform.rotation);
+				Tile newTile = Instantiate(_tile, 
+					new Vector3(startX + (xOffset * x), startY + (yOffset * y), 0), 
+					_tile.transform.rotation);
 				_tiles[x, y] = newTile;
 				newTile.SetIndex(x, y);
-				newTile.transform.SetParent(transform);
+                newTile.transform.SetParent(_origin, false);
 
-				List<TileScriptableData> possibleCharacters = new List<TileScriptableData>();
+                List<TileScriptableData> possibleCharacters = new List<TileScriptableData>();
 				possibleCharacters.AddRange(_tileDatas);
 
 				possibleCharacters.Remove(previousLeft[y]);

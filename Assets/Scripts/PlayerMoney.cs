@@ -5,7 +5,7 @@ using UnityEngine.Events;
 
 public class PlayerMoney : MonoBehaviour
 {
-    [SerializeField] private MatchBoard _board;
+    private MatchBoard _board;
     public float TotalAmount { get; private set; }
 
     private IncomePerSecondCounter _counter;
@@ -15,6 +15,7 @@ public class PlayerMoney : MonoBehaviour
     private void Awake()
     {
         _counter = GetComponent<IncomePerSecondCounter>();
+        _board = GetComponent<MatchBoard>();
     }
 
     private void OnEnable()
