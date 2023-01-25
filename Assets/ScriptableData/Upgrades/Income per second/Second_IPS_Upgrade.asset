@@ -14,4 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _title: Second
   _baseCost: 10
-  _baseMultiplier: 1.5
+  _baseMultiplier: 0.2
+  _upgradeType: 3

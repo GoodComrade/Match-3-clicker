@@ -34,6 +34,7 @@ public class MatchBoard : MonoBehaviour
         CreateBoard(offset.x, offset.y);
     }
 
+	//unsubscribing match board from tiles
 	/*private void OnDisable()
 	{
 		for(int x = 0; x < _tiles.GetLength(0) - 1; x++)

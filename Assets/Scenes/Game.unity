@@ -604,9 +604,8 @@ MonoBehaviour:
   UpgradesData:
   - {fileID: 11400000, guid: c6448f3eef0d03241959fd1d825ecb29, type: 2}
   - {fileID: 11400000, guid: d77c46185adad6345b14354bb9d8c23a, type: 2}
-  - {fileID: 11400000, guid: f684c8817956037408f94270e598a5a8, type: 2}
   _startPeriodicIncome: 0.1
-  _incomeDelay: 1
+  _startIncomeDelay: 5
 --- !u!114 &208288404
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1672,6 +1671,7 @@ GameObject:
   - component: {fileID: 913126669}
   - component: {fileID: 913126671}
   - component: {fileID: 913126670}
+  - component: {fileID: 913126672}
   m_Layer: 5
   m_Name: ActionPanel
   m_TagString: Untagged
@@ -1691,8 +1691,8 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1699573291}
   - {fileID: 1053565653}
+  - {fileID: 1699573291}
   - {fileID: 999654126}
   - {fileID: 1261214906}
   - {fileID: 330582110}
@@ -1743,6 +1743,25 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 913126668}
   m_CullTransparentMesh: 1
+--- !u!114 &913126672
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 913126668}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b36fcabc881d01d419633ceef1ef370d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _panels:
+  - {fileID: 1053565652}
+  - {fileID: 1699573290}
+  - {fileID: 999654125}
+  _upgradesButton: {fileID: 1261214907}
+  _employeesButton: {fileID: 330582111}
+  _businessButton: {fileID: 75961475}
 --- !u!1 &983670225
 GameObject:
   m_ObjectHideFlags: 0
@@ -1946,7 +1965,7 @@ RectTransform:
   m_Children:
   - {fileID: 712278887}
   m_Father: {fileID: 913126669}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.02, y: 0.02}
   m_AnchorMax: {x: 0.98, y: 0.84}
@@ -2976,7 +2995,7 @@ RectTransform:
   m_Children:
   - {fileID: 714320234}
   m_Father: {fileID: 913126669}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.02, y: 0.02}
   m_AnchorMax: {x: 0.98, y: 0.84}

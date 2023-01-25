@@ -7,9 +7,10 @@ using UnityEngine.Events;
 public class IncomePerSecondCounter : IncomeCounterBase
 {
     [SerializeField] private float _startPeriodicIncome = 0.1f;
-    [SerializeField] private float _incomeDelay;
+    [SerializeField] private float _startIncomeDelay;
 
     private float _periodicIncome;
+    private float _incomeDelay;
 
     public event UnityAction<float> GetIncome;
 
@@ -31,6 +32,7 @@ public class IncomePerSecondCounter : IncomeCounterBase
         }
 
         _periodicIncome = _startPeriodicIncome;
+        _incomeDelay = _startIncomeDelay;
         StartCoroutine(AppllyIncome());
     }
 
@@ -49,14 +51,26 @@ public class IncomePerSecondCounter : IncomeCounterBase
         }
     }
 
-    private void CalculateIncome()
+    protected override void CalculateIncome()
     {
+        float currentIncome = _startPeriodicIncome;
+        float currentDelay = _startIncomeDelay;
         float totalMultiplier = 0;
+        float totalDelay = 0;
 
         foreach (IncomePerSecondUpgrade upgrade in Upgrades)
+        {
             if (upgrade.IsBuyed)
-                totalMultiplier += upgrade.GetTotalMultiplier();
+            {
+                switch (upgrade.Data.UpgradeType)
+                {
+                    case UpgradeType.IncomeAmount: totalMultiplier += upgrade.GetTotalMultiplier(); break;
+                    case UpgradeType.IncomeDelay: totalDelay += upgrade.GetTotalMultiplier(); break;
+                }
+            }
+        }
 
-        _periodicIncome = totalMultiplier > 0 ? _periodicIncome * totalMultiplier : _periodicIncome;
+        _periodicIncome = totalMultiplier > 0 ? currentIncome * totalMultiplier : _periodicIncome;
+        _incomeDelay = totalDelay > 0 ? currentDelay - totalDelay : _incomeDelay;
     }
 }

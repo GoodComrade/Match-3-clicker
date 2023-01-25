@@ -15,3 +15,4 @@ MonoBehaviour:
   _title: PerMatchStrick
   _baseCost: 10
   _baseMultiplier: 1.1
+  _upgradeType: 1

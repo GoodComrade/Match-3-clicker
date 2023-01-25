@@ -15,3 +15,4 @@ MonoBehaviour:
   _title: First
   _baseCost: 3
   _baseMultiplier: 1.1
+  _upgradeType: 4

@@ -24,16 +24,17 @@ public class UpgradeToastUI : MonoBehaviour
         if(_toastLogic != null)
         {
             _toastLogic.ValuesUpdated += OnValuesChanged;
+            _upgradeButton.onClick.AddListener(_toastLogic.IncreaseMultiplier);
+
             _titleText.text = _toastLogic.Data.Title;
             _multiplierText.text = _toastLogic.Data.BaseMultiplier.ToString();
             _buttonText.text = _toastLogic.Data.BaseCost.ToString();
-            _upgradeButton.onClick.AddListener(_toastLogic.IncreaseMultiplier);
         }
     }
 
     private void Update()
     {
-        if (_toastLogic.GetTotalMoney() >= _toastLogic.UpgradeCost)
+        if (_toastLogic.TryBuyUpgrade())
             _upgradeButton.interactable = true;
         else
             _upgradeButton.interactable = false;

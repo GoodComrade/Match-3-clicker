@@ -26,7 +26,7 @@ public class IncomePerMatchCounter : IncomeCounterBase
     //TODO: make match3 mechanic
 
 
-    private void CalculateIncome()
+    protected override void CalculateIncome()
     {
         float totalMultiplier = 0;
 

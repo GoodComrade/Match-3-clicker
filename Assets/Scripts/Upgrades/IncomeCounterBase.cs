@@ -12,16 +12,12 @@ public abstract class IncomeCounterBase : MonoBehaviour
     protected readonly List<IncomeUpgradeBase> Upgrades = new List<IncomeUpgradeBase>();
     protected PlayerMoney Money;
 
-
-    public List<IncomeUpgradeBase> GetUpgradesList()
-    {
-        return Upgrades;
-    }
-
     protected virtual void InitializeUpgrades()
     {
         Money = GetComponent<PlayerMoney>();
     }
+
+    protected abstract void CalculateIncome();
 }
 
 

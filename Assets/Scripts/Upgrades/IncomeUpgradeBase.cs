@@ -5,15 +5,14 @@ using UnityEngine.Events;
 
 public abstract class IncomeUpgradeBase : MonoBehaviour
 {
-    private UpgradeScriptableData _data;
-
     private bool _isBuyed;
-
-    public UpgradeScriptableData Data => _data;
     public bool IsBuyed => _isBuyed;
-    public float Multiplier { get; private set; }
-    public float UpgradeCost { get; private set; }
-    public PlayerMoney Money { get; private set; }
+
+    public UpgradeScriptableData Data { get; private set; }
+    
+    protected float Multiplier;
+    protected float UpgradeCost;
+    protected PlayerMoney Money;
 
     public event UnityAction<float, float> ValuesUpdated;
 
@@ -22,18 +21,19 @@ public abstract class IncomeUpgradeBase : MonoBehaviour
         Multiplier = data.BaseMultiplier;
         Money = money;
         UpgradeCost = data.BaseCost;
-        _data = data;
+        Data = data;
         _isBuyed = false;
     }
 
-    public void IncreaseMultiplier()
+    public virtual void IncreaseMultiplier()
     {
         Money.BuyUpgrade(UpgradeCost);
 
-        if (_isBuyed)
-            Multiplier *= _data.BaseMultiplier;
+        if (IsBuyed)
+            Multiplier += Data.BaseMultiplier / 0.5f;
 
         UpgradeCost += UpgradeCost * Multiplier;
+
         RoundValues();
 
         ValuesUpdated?.Invoke(UpgradeCost, Multiplier);
@@ -47,9 +47,9 @@ public abstract class IncomeUpgradeBase : MonoBehaviour
         return Multiplier;
     }
 
-    public double GetTotalMoney()
+    public bool TryBuyUpgrade()
     {
-        return Money.TotalAmount;
+        return Money.TotalAmount >= UpgradeCost;
     }
 
     private void RoundValues()

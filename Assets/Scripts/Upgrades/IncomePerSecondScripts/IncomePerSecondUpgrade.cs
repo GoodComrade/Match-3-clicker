@@ -11,5 +11,11 @@ public class IncomePerSecondUpgrade : IncomeUpgradeBase
      * 1. tick rate type
      * 2. per tick income type
      * 3. imagine other types later
+     * 
      */
+
+    public override void IncreaseMultiplier()
+    {
+        base.IncreaseMultiplier();
+    }
 }
