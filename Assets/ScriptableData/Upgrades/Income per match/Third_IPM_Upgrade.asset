@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e7cb76b6be375b1469e2db73c03fb8da, type: 3}
   m_Name: Third_IPM_Upgrade
   m_EditorClassIdentifier: 
-  _title: PerMatchLength
+  _title: BlueTileMultiplier
   _baseCost: 15
   _baseMultiplier: 1.1
   _upgradeType: 2

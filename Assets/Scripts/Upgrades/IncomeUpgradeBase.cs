@@ -30,9 +30,10 @@ public abstract class IncomeUpgradeBase : MonoBehaviour
         Money.BuyUpgrade(UpgradeCost);
 
         if (IsBuyed)
+        {
+            UpgradeCost += UpgradeCost * Multiplier;
             Multiplier += Data.BaseMultiplier / 0.5f;
-
-        UpgradeCost += UpgradeCost * Multiplier;
+        }
 
         RoundValues();
 

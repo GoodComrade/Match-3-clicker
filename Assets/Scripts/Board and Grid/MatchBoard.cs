@@ -5,7 +5,9 @@ using UnityEngine.Events;
 
 public class MatchBoard : MonoBehaviour
 {
-	public static MatchBoard Instance;
+    public event UnityAction<float> SendReward;
+
+    public static MatchBoard Instance;
 
 	[SerializeField] private RectTransform _origin;
 	[SerializeField] private List<TileScriptableData> _tileDatas = new List<TileScriptableData>();
@@ -13,7 +15,6 @@ public class MatchBoard : MonoBehaviour
 	[SerializeField] private int _xSize;
 	[SerializeField] private int _ySize;
 
-    private PlayerMoney _playerMoney;
     private Tile[,] _tiles;
 	private Coroutine _findNullTilesCoroutine;
 
@@ -23,12 +24,14 @@ public class MatchBoard : MonoBehaviour
 
 	public Tile[,] Tiles => _tiles;
 
-	public event UnityAction<float> SendReward;
+	public List<TileScriptableData> TileDatas => _tileDatas;
 
-	private void Start () 
+    private void Start () 
 	{
 		Instance = GetComponent<MatchBoard>();
-		_playerMoney = GetComponent<PlayerMoney>();
+
+		for (int i = 0; i < _tileDatas.Count; i++)
+			_tileDatas[i].SetBaseReward();
 
 		RectTransform tileRect = _tile.GetComponent<RectTransform>();
 		tileRect.sizeDelta = _origin.sizeDelta;
@@ -98,8 +101,6 @@ public class MatchBoard : MonoBehaviour
 			}
         }
     }
-
-	
 
 	public IEnumerator FindNullTiles() 
 	{

@@ -56,7 +56,8 @@ public class Tile : MonoBehaviour
 
     public void InvokeRewarding()
     {
-        FoundMatch?.Invoke(Data.BaseReward);
+        Debug.Log(Data.Reward);
+        FoundMatch?.Invoke(Data.Reward);
     }
 
 	private void Select() 
