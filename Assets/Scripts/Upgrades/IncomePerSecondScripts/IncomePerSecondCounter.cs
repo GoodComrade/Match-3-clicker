@@ -51,7 +51,7 @@ public class IncomePerSecondCounter : IncomeCounterBase
         }
     }
 
-    protected override void CalculateIncome()
+    private void CalculateIncome()
     {
         float currentIncome = _startPeriodicIncome;
         float currentDelay = _startIncomeDelay;
@@ -66,10 +66,13 @@ public class IncomePerSecondCounter : IncomeCounterBase
                 {
                     case UpgradeType.IncomeAmount: totalMultiplier += upgrade.GetTotalMultiplier(); break;
                     case UpgradeType.IncomeDelay: totalDelay += upgrade.GetTotalMultiplier(); break;
+                    default: break;
                 }
             }
         }
 
+        Debug.Log(totalDelay);
+        Debug.Log(totalMultiplier);
         _periodicIncome = totalMultiplier > 0 ? currentIncome * totalMultiplier : _periodicIncome;
         _incomeDelay = totalDelay > 0 ? currentDelay - totalDelay : _incomeDelay;
     }

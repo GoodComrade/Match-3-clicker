@@ -14,8 +14,4 @@ public class IncomePerSecondUpgrade : IncomeUpgradeBase
      * 
      */
 
-    public override void IncreaseMultiplier()
-    {
-        base.IncreaseMultiplier();
-    }
 }

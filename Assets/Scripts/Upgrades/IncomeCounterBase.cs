@@ -16,8 +16,6 @@ public abstract class IncomeCounterBase : MonoBehaviour
     {
         Money = GetComponent<PlayerMoney>();
     }
-
-    protected virtual void CalculateIncome() { }
 }
 
 

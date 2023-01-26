@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e7cb76b6be375b1469e2db73c03fb8da, type: 3}
   m_Name: Second_IPS_Upgrade
   m_EditorClassIdentifier: 
-  _title: Second
+  _title: IncomeDelay
   _baseCost: 10
   _baseMultiplier: 0.2
-  _upgradeType: 3
+  _upgradeType: 5
