@@ -24,10 +24,9 @@ public class IncomePopup : MonoBehaviour
             _destinationSizeDelta = _rect.sizeDelta;
     }
 
-    public void Init(float incomeValue, Vector3 startPoint)
+    public void Init(float incomeValue)
     {
         _rect.sizeDelta = _startSizeDelta;
-        _rect.position = startPoint;
         _text.text = $"+ ${incomeValue}";
         _canvasGroup.alpha = 1f;
     }
@@ -39,7 +38,6 @@ public class IncomePopup : MonoBehaviour
 
     private void MovePopup()
     {
-        _rect.DOMoveY(0.5f, _animationDuration);
         _canvasGroup.DOFade(0, _animationDuration);
     }
 }

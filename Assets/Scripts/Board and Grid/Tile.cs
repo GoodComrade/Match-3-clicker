@@ -8,8 +8,8 @@ using DG.Tweening;
 
 public class Tile : MonoBehaviour 
 {
-    private Color _defaultColor;
-    private Color _selectColor = Color.black;
+    private Vector3 _defaultImageSize;
+    private Vector3 _destinationImageSize;
 
     private IncomePopup _popup;
     private Button _button;
@@ -36,7 +36,8 @@ public class Tile : MonoBehaviour
 		if (_button != null)
 			_button.onClick.AddListener(OnSelected);
 
-        _defaultColor = Image.color;
+        _defaultImageSize = Image.transform.localScale;
+        _destinationImageSize = _defaultImageSize / 2f;
     }
 
 	/*private void OnDisable()
@@ -60,7 +61,7 @@ public class Tile : MonoBehaviour
         {
             Data = data;
             Image.sprite = data.Tile;
-            _popup.Init(data.Reward, transform.position);
+            _popup.Init(data.Reward);
         }
     }
     public void StartMatchAnimation()
@@ -96,12 +97,12 @@ public class Tile : MonoBehaviour
 
     private void StartSelectAnimation()
     {
-        _tween = Image.DOColor(_selectColor, 0.5f).SetLoops(-1, LoopType.Yoyo);
+        _tween = Image.transform.DOScale(_destinationImageSize, 0.5f).SetLoops(-1, LoopType.Yoyo);
     }
 
     private void StopSelectAnimation()
     {
-        Image.color = _defaultColor;
+        Image.transform.localScale = _defaultImageSize;
         _tween.SetLoops(0);
         _tween.Complete();
         _tween.Kill();
