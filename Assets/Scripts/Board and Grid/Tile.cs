@@ -4,12 +4,18 @@ using System.Collections.Generic;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using UnityEngine.Events;
+using DG.Tweening;
 
 public class Tile : MonoBehaviour 
 {
+    private Color _defaultColor;
+    private Color _selectColor = Color.black;
+
+    private IncomePopup _popup;
     private Button _button;
 	private bool _isSelected = false;
     private bool _matchFound = false;
+    private Tween _tween;
 
     private Vector2[] _adjacentDirections = new Vector2[] { Vector2.up, Vector2.down, Vector2.left, Vector2.right };
     private Vector2[] _verticalDirections = new Vector2[] { Vector2.up, Vector2.down };
@@ -23,11 +29,14 @@ public class Tile : MonoBehaviour
 
     private void Awake() 
 	{
-        Image = GetComponent<Image>();
+        Image = GetComponentInChildren<Image>();
 		_button = GetComponent<Button>();
+        _popup = GetComponentInChildren<IncomePopup>();
 
 		if (_button != null)
 			_button.onClick.AddListener(OnSelected);
+
+        _defaultColor = Image.color;
     }
 
 	/*private void OnDisable()
@@ -51,28 +60,54 @@ public class Tile : MonoBehaviour
         {
             Data = data;
             Image.sprite = data.Tile;
+            _popup.Init(data.Reward, transform.position);
         }
-	}
-
-    public void InvokeRewarding()
+    }
+    public void StartMatchAnimation()
     {
-        Debug.Log(Data.Reward);
+        Image.transform.DOScale(new Vector3(0, 0, 0), 0.1f).OnComplete(ApplyMatch);
+    }
+
+    private void InvokeRewarding()
+    {
+        _popup.ActivatePopup();
         FoundMatch?.Invoke(Data.Reward);
+    }
+
+    private void ApplyMatch()
+    {
+        SetData(null);
+        Image.transform.localScale = transform.localScale;
     }
 
 	private void Select() 
 	{
 		_isSelected = true;
+        StartSelectAnimation();
         MatchBoard.Instance.SetPreviousSelected(this);
 	}
 
 	private void Deselect() 
 	{
         _isSelected = false;
+        StopSelectAnimation();
         MatchBoard.Instance.SetPreviousSelected(null);
     }
 
-	private void OnSelected() 
+    private void StartSelectAnimation()
+    {
+        _tween = Image.DOColor(_selectColor, 0.5f).SetLoops(-1, LoopType.Yoyo);
+    }
+
+    private void StopSelectAnimation()
+    {
+        Image.color = _defaultColor;
+        _tween.SetLoops(0);
+        _tween.Complete();
+        _tween.Kill();
+    }
+
+    private void OnSelected() 
 	{
         Tile previousSelected = MatchBoard.Instance.PreviousSelected;
 
@@ -96,10 +131,9 @@ public class Tile : MonoBehaviour
             if (TryGetAllAdjacentTiles(_adjacentDirections))
             {
                 Debug.Log("Adjacent");
-                SwapSprite(MatchBoard.Instance.PreviousSelected);
-                MatchBoard.Instance.PreviousSelected.ClearAllMatches();
-                MatchBoard.Instance.PreviousSelected.Deselect();
-                ClearAllMatches();
+                MatchBoard.Instance.PreviousSelected.Image.transform.DOMove(transform.position, 0.1f);
+                Image.transform.DOMove(MatchBoard.Instance.PreviousSelected.transform.position, 0.1f)
+                    .OnComplete(() => SwapSprite(MatchBoard.Instance.PreviousSelected));
             }
             else
             {
@@ -107,17 +141,6 @@ public class Tile : MonoBehaviour
                 Select();
             }
         }
-    }
-
-	private void SwapSprite(Tile tileSwapWith) 
-	{
-		if (Data.TileType == tileSwapWith.Data.TileType)
-            return;
-
-        TileScriptableData tempData = tileSwapWith.Data;
-        tileSwapWith.SetData(Data);
-        SetData(tempData);
-        Debug.Log("swapped");
     }
 
     private bool TryGetAllAdjacentTiles(Vector2[] directions) 
@@ -135,6 +158,26 @@ public class Tile : MonoBehaviour
             return false;
     }
 
+    private void SwapSprite(Tile tileSwapWith)
+    {
+        if (Data.TileType == tileSwapWith.Data.TileType)
+            return;
+
+        TileScriptableData tempData = tileSwapWith.Data;
+        tileSwapWith.SetData(Data);
+        SetData(tempData);
+
+        tileSwapWith.Image.transform.position = tileSwapWith.transform.position;
+        Image.transform.position = transform.position;
+        Debug.Log("swapped");
+
+        MatchBoard.Instance.PreviousSelected.ClearAllMatches();
+        MatchBoard.Instance.PreviousSelected.Deselect();
+
+        ClearAllMatches();
+        Deselect();
+    }
+
     public void ClearAllMatches() 
 	{
 		if (Image.sprite == null)
@@ -146,11 +189,11 @@ public class Tile : MonoBehaviour
 		if (_matchFound) 
 		{
             InvokeRewarding();
+            StartMatchAnimation();
             Debug.Log("Match");
-            SetData(null);
 			_matchFound = false;
             MatchBoard.Instance.StartFindNullTiles();
-		}
+        }
 	}
 
     private void ClearMatch(Vector2[] paths)
@@ -167,11 +210,10 @@ public class Tile : MonoBehaviour
 
         if (matchingTiles.Count >= 2)
         {
-
             for (int i = 0; i < matchingTiles.Count; i++)
             {
                 matchingTiles[i].InvokeRewarding();
-                matchingTiles[i].SetData(null);
+                matchingTiles[i].StartMatchAnimation();
             }
 
             _matchFound = true;

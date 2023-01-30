@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.Events;
+using DG.Tweening;
 
 public class MatchBoard : MonoBehaviour
 {
@@ -17,6 +18,7 @@ public class MatchBoard : MonoBehaviour
 
     private Tile[,] _tiles;
 	private Coroutine _findNullTilesCoroutine;
+	
 
     public Tile PreviousSelected { get; private set; }
 
@@ -65,6 +67,25 @@ public class MatchBoard : MonoBehaviour
 		PreviousSelected = tile;
 	}
 
+    public IEnumerator FindNullTiles(float startDelay = 1f)
+    {
+		yield return new WaitForSeconds(startDelay);
+
+        for (int x = 0; x < _xSize; x++)
+        {
+            for (int y = 0; y < _ySize; y++)
+            {
+                if (_tiles[x, y].Data == null)
+                {
+                    yield return StartCoroutine(FindTilesToShift(x, y));
+                    break;
+                }
+            }
+        }
+
+        CheckOtherMatches();
+    }
+
     private void CreateBoard (float xOffset, float yOffset) 
 	{
 		_tiles = new Tile[_xSize, _ySize];
@@ -102,23 +123,6 @@ public class MatchBoard : MonoBehaviour
         }
     }
 
-	public IEnumerator FindNullTiles() 
-	{
-		for (int x = 0; x < _xSize; x++) 
-		{
-			for (int y = 0; y < _ySize; y++) 
-			{
-				if (_tiles[x, y].Data == null) 
-				{
-                    yield return StartCoroutine(ShiftTilesDown(x, y));
-                    break;
-                }
-			}
-		}
-
-		CheckOtherMatches();
-    }
-	
     private void CheckOtherMatches()
 	{
         for (int x = 0; x < _xSize; x++)
@@ -131,7 +135,7 @@ public class MatchBoard : MonoBehaviour
     }
 
 	//refactor this
-	private IEnumerator ShiftTilesDown(int x, int yStart, float shiftDelay = 0.03f) 
+	private IEnumerator FindTilesToShift(int x, int yStart, float shiftDelay = 0.01f) 
 	{
 		IsShifting = true;
 		List<Tile> renders = new List<Tile>();
@@ -151,13 +155,23 @@ public class MatchBoard : MonoBehaviour
 
 		for (int i = 0; i < nullCount; i++) 
 		{
-			yield return new WaitForSeconds(shiftDelay);
-
-			for (int k = 0; k < renders.Count - 1; k++) 
+            for (int k = 0; k < renders.Count; k++) 
 			{
-                renders[k].SetData(renders[k + 1].Data);
-				renders[k + 1].SetData(GetNewTileData(x, _ySize - 1));
-			}
+                if (k + 1 < renders.Count)
+				{
+                    Vector3 defaultpos = renders[k + 1].Image.transform.position;
+                    renders[k + 1].Image.transform.DOMoveY(renders[k].transform.position.y, shiftDelay);
+                    yield return new WaitForSeconds(shiftDelay);
+                    
+                    renders[k].SetData(renders[k + 1].Data);
+                    renders[k + 1].Image.transform.position = defaultpos;
+                    renders[k + 1].Image.sprite = null;
+                }
+				else
+				{
+                    renders[k].SetData(GetNewTileData(x, _ySize - 1));
+                }
+            }
 		}
 
 		IsShifting = false;

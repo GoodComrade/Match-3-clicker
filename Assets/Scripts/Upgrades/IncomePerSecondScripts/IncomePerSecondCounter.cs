@@ -71,8 +71,6 @@ public class IncomePerSecondCounter : IncomeCounterBase
             }
         }
 
-        Debug.Log(totalDelay);
-        Debug.Log(totalMultiplier);
         _periodicIncome = totalMultiplier > 0 ? currentIncome * totalMultiplier : _periodicIncome;
         _incomeDelay = totalDelay > 0 ? currentDelay - totalDelay : _incomeDelay;
     }
