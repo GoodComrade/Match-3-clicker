@@ -28,7 +28,7 @@ public class UpgradeToastUI : MonoBehaviour
 
             _titleText.text = _toastLogic.Data.Title;
             _multiplierText.text = _toastLogic.Data.BaseMultiplier.ToString();
-            _buttonText.text = _toastLogic.Data.BaseCost.ToString();
+            _buttonText.text = $"${_toastLogic.Data.BaseCost}";
         }
     }
 
@@ -56,6 +56,15 @@ public class UpgradeToastUI : MonoBehaviour
     private void OnValuesChanged(float cost, float multiplier)
     {
         _multiplierText.text = multiplier.ToString();
-        _buttonText.text = cost.ToString();
+
+        _buttonText.text = $"${cost}";
+
+        if (cost >= Constants.ThousandDivider)
+        {
+            cost /= Constants.ThousandDivider;
+            cost = Mathf.Round(cost * Constants.TenDivider) / Constants.TenDivider;
+            _buttonText.text = $"${cost}k";
+        }
+        
     }
 }

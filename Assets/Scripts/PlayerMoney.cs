@@ -41,5 +41,6 @@ public class PlayerMoney : MonoBehaviour
     public void BuyUpgrade(float cost)
     {
         TotalAmount -= cost;
+        MoneyChanged?.Invoke(TotalAmount);
     }
 }

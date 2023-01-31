@@ -26,5 +26,13 @@ public class PlayerMoneyView : MonoBehaviour
     private void OnMoneyChanged(float value)
     {
         _viewText.text = $"$ {value}";
+
+        if (value >= Constants.ThousandDivider)
+        {
+            value /= Constants.ThousandDivider;
+            value = value = Mathf.Round(value * Constants.TenDivider) / Constants.TenDivider; ;
+            _viewText.text = $"$ {value}K";
+        }
+        
     }
 }
