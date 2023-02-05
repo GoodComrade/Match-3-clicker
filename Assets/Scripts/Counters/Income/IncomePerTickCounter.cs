@@ -4,7 +4,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class IncomePerSecondCounter : IncomeCounterBase
+public class IncomePerTickCounter : IncomeCounterBase
 {
     [SerializeField] private float _startPeriodicIncome = 0.1f;
     [SerializeField] private float _startIncomeDelay;
@@ -12,7 +12,7 @@ public class IncomePerSecondCounter : IncomeCounterBase
     private float _periodicIncome;
     private float _incomeDelay;
 
-    public event UnityAction<float> GetIncome;
+    public event UnityAction<float> IncomeEarned;
 
     private void Awake()
     {
@@ -47,14 +47,14 @@ public class IncomePerSecondCounter : IncomeCounterBase
                 CalculateIncome();
             }
 
-            GetIncome?.Invoke(_periodicIncome);
+            IncomeEarned?.Invoke(_periodicIncome);
         }
     }
 
     private void CalculateIncome()
     {
-        float currentIncome = _startPeriodicIncome;
-        float currentDelay = _startIncomeDelay;
+        float baseIncome = _startPeriodicIncome;
+        float BaseDelay = _startIncomeDelay;
         float totalMultiplier = 0;
         float totalDelay = 0;
 
@@ -71,7 +71,7 @@ public class IncomePerSecondCounter : IncomeCounterBase
             }
         }
 
-        _periodicIncome = totalMultiplier > 0 ? currentIncome * totalMultiplier : _periodicIncome;
-        _incomeDelay = totalDelay > 0 ? currentDelay - totalDelay : _incomeDelay;
+        _periodicIncome = totalMultiplier > 0 ? baseIncome * totalMultiplier : _periodicIncome;
+        _incomeDelay = totalDelay > 0 ? BaseDelay - totalDelay : _incomeDelay;
     }
 }

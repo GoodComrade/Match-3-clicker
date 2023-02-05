@@ -5,23 +5,14 @@ using UnityEngine;
 
 public class PlayerMoneyView : MonoBehaviour
 {
-    [SerializeField] private PlayerMoney _money;
+    [SerializeField] private PlayerStats _money;
     [SerializeField] private TMP_Text _viewText;
 
-    private void Awake()
-    {
-        _money.MoneyChanged += OnMoneyChanged;
-    }
+    private void Awake() => _viewText = GetComponentInChildren<TMP_Text>();
 
-    private void Start()
-    {
-        _viewText.text = $"$ {_money.TotalAmount}";
-    }
+    private void OnEnable() => _money.MoneyChanged += OnMoneyChanged;
 
-    private void OnDisable()
-    {
-        _money.MoneyChanged -= OnMoneyChanged;
-    }
+    private void OnDisable() => _money.MoneyChanged -= OnMoneyChanged;
 
     private void OnMoneyChanged(float value)
     {
