@@ -1,8 +1,8 @@
 public enum TileType
 {
-    First,
-    Second,
-    Third,
-    Forth,
-    Five
+    Red,
+    Green,
+    Blue,
+    Yellow,
+    Purple
 }

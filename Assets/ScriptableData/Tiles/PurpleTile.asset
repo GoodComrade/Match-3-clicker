@@ -10,8 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ea8ab12d07b61df4c8442676e2d74889, type: 3}
-  m_Name: SecondTile
+  m_Name: PurpleTile
   m_EditorClassIdentifier: 
-  _tile: {fileID: 689510029, guid: 40db09c91da2dfe49a784aeb96dc04a5, type: 3}
-  _baseReward: 2
-  _tileType: 1
+  _tile: {fileID: 1089009211, guid: 40db09c91da2dfe49a784aeb96dc04a5, type: 3}
+  _baseReward: 5
+  _tileType: 4

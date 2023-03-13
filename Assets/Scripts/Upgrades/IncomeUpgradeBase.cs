@@ -15,6 +15,7 @@ public abstract class IncomeUpgradeBase : MonoBehaviour
     protected PlayerStats Money;
 
     public event UnityAction<float, float> ValuesUpdated;
+    public event UnityAction<UpgradeType> UpgradeBuyed;
 
     public void Init(PlayerStats money, UpgradeScriptableData data)
     {
@@ -40,7 +41,7 @@ public abstract class IncomeUpgradeBase : MonoBehaviour
         ValuesUpdated?.Invoke(UpgradeCost, Multiplier);
 
         if (_isBuyed == false)
-            _isBuyed = true;
+            BuyUpgrade();
     }
 
     public float GetTotalMultiplier()
@@ -53,6 +54,11 @@ public abstract class IncomeUpgradeBase : MonoBehaviour
         return Money.TotalMoney >= UpgradeCost;
     }
 
+    private void BuyUpgrade()
+    {
+        _isBuyed = true;
+        UpgradeBuyed.Invoke(Data.UpgradeType);
+    }
     private void RoundValues()
     {
         UpgradeCost = Mathf.Round(UpgradeCost * 100f) / 100f;

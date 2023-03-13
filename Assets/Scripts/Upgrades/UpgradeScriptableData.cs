@@ -19,11 +19,11 @@ public class UpgradeScriptableData : ScriptableObject
 
 public enum UpgradeType
 {
-    CheapCostTileUpgrade,
-    LessCheapTileUpgrade,
-    MiddleCostTileUpgrade,
-    ≈xpensiveCostTileUpgrade,
-    Most≈xpensiveCostTileUpgrade,
+    RedTileUpgrade,
+    GreenTileUpgrade,
+    BlueTileUpgrade,
+    YellowTileUpgrade,
+    PurpleTileUpgrade,
     IncomeDelay,
     IncomeAmount
 }
