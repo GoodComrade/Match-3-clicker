@@ -5,17 +5,19 @@ using UnityEngine.Events;
 
 public abstract class IncomeUpgradeBase : MonoBehaviour
 {
-    private bool _isBuyed;
+    public event UnityAction<float, float> ValuesUpdated;
+    public event UnityAction<UpgradeType> UpgradeBuyed;
+
     public bool IsBuyed => _isBuyed;
 
     public UpgradeScriptableData Data { get; private set; }
-    
+
+    private bool _isBuyed;
+    private AudioSource _audioSource;
+
     protected float Multiplier;
     protected float UpgradeCost;
     protected PlayerStats Money;
-
-    public event UnityAction<float, float> ValuesUpdated;
-    public event UnityAction<UpgradeType> UpgradeBuyed;
 
     public void Init(PlayerStats money, UpgradeScriptableData data)
     {
@@ -24,10 +26,14 @@ public abstract class IncomeUpgradeBase : MonoBehaviour
         UpgradeCost = data.BaseCost;
         Data = data;
         _isBuyed = false;
+
+
+        _audioSource = GetComponentInChildren<AudioSource>();
     }
 
     public virtual void IncreaseMultiplier()
     {
+        _audioSource?.Play();
         Money.RemoveMoney(UpgradeCost);
 
         if (IsBuyed)
@@ -57,7 +63,7 @@ public abstract class IncomeUpgradeBase : MonoBehaviour
     private void BuyUpgrade()
     {
         _isBuyed = true;
-        UpgradeBuyed.Invoke(Data.UpgradeType);
+        UpgradeBuyed?.Invoke(Data.UpgradeType);
     }
     private void RoundValues()
     {

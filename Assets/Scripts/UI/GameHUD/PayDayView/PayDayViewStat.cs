@@ -7,8 +7,8 @@ public class PayDayViewStat : MonoBehaviour
 {
     [SerializeField] private TMP_Text _text;
 
-    public void SetTextValue(float value)
+    public void SetTextValue(string toastText, float value)
     {
-        _text.text = $"$ {value}";
+        _text.text = $"{toastText} ${value}"; 
     }
 }

@@ -7,6 +7,7 @@ public class PlayerStats : MonoBehaviour
 {
     public event UnityAction<float> MoneyChanged;
     public event UnityAction<float> MonthIncomeChanged;
+    public event UnityAction<float> MonthOutcomeChanged;
 
     private MatchBoard _board;
     public float TotalMoney { get; private set; }
@@ -44,10 +45,18 @@ public class PlayerStats : MonoBehaviour
 
     public void RemoveMoney(float cost)
     {
-        TotalMoney += -cost;
+        TotalMoney -= cost;
         TotalMoney = Mathf.Round(TotalMoney * 10f) / 10f;
 
         MoneyChanged?.Invoke(TotalMoney);
-        MonthIncomeChanged?.Invoke(-cost);
+        MonthOutcomeChanged?.Invoke(cost);
+    }
+
+    public void PayTaxes(float tax)
+    {
+        TotalMoney -= tax;
+        TotalMoney = Mathf.Round(TotalMoney * 10f) / 10f;
+
+        MoneyChanged?.Invoke(TotalMoney);
     }
 }

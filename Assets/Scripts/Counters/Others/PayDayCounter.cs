@@ -5,7 +5,7 @@ using UnityEngine.Events;
 
 public class PayDayCounter : MonoBehaviour
 {
-    public UnityAction<float, float> PayDayOpenView;
+    public UnityAction<float, float, float, float> PayDayOpenView;
 
     private DateCounter _dateCounter;
     private PlayerStats _playerStats;
@@ -13,6 +13,8 @@ public class PayDayCounter : MonoBehaviour
     private IncomePerMatchCounter _incomePerMatchCounter;
 
     private float _incomePerMonth;
+    private float _outcomePerMonth;
+    private float _totalIncomePerMonth;
 
     private void Awake()
     {
@@ -26,18 +28,26 @@ public class PayDayCounter : MonoBehaviour
     {
         _dateCounter.PayDayHasCome += OnPayDayHasCome;
         _playerStats.MonthIncomeChanged += CalculateIncomePerMonth;
+        _playerStats.MonthOutcomeChanged += CalculateOutcomePerMonth;
     }
 
     private void OnDisable()
     {
         _dateCounter.PayDayHasCome -= OnPayDayHasCome;
         _playerStats.MonthIncomeChanged -= CalculateIncomePerMonth;
+        _playerStats.MonthOutcomeChanged -= CalculateOutcomePerMonth;
     }
 
     private void CalculateIncomePerMonth(float value)
     {
         value = Mathf.Round(value * 100f) / 100f;
         _incomePerMonth += value;
+    }
+
+    private void CalculateOutcomePerMonth(float value)
+    {
+        value = Mathf.Round(value * 100f) / 100f;
+        _outcomePerMonth += value;
     }
 
     private float CalculateTaxes()
@@ -59,8 +69,13 @@ public class PayDayCounter : MonoBehaviour
     private void OnPayDayHasCome()
     {
         float taxes = CalculateTaxes();
-        PayDayOpenView?.Invoke(_incomePerMonth, -taxes);
-        _playerStats.RemoveMoney(taxes);
+        _playerStats.PayTaxes(taxes);
+
+        _totalIncomePerMonth = (_incomePerMonth - _outcomePerMonth) - taxes;
+        PayDayOpenView?.Invoke(_incomePerMonth, _outcomePerMonth, -taxes, _totalIncomePerMonth);
+
         _incomePerMonth = 0;
+        _outcomePerMonth = 0;
+        _totalIncomePerMonth = 0;
     }
 }

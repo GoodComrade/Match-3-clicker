@@ -39,7 +39,7 @@ public class UpgradeToastUI : MonoBehaviour
         else
             _upgradeButton.interactable = false;
 
-        if(_visual.alpha < 1f)
+        if(_visual.alpha < 1f && _toastLogic.IsBuyed == true)
             _visual.alpha = 1f;
 
         if (_toastLogic.IsBuyed == true)
