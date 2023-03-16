@@ -10,6 +10,7 @@ public class PlayerStats : MonoBehaviour
     public event UnityAction<float> MonthOutcomeChanged;
 
     private MatchBoard _board;
+    private LevelCounter _levelCounter;
     public float TotalMoney { get; private set; }
 
     private IncomePerTickCounter _counter;
@@ -18,6 +19,7 @@ public class PlayerStats : MonoBehaviour
     {
         _counter = GetComponent<IncomePerTickCounter>();
         _board = GetComponent<MatchBoard>();
+        _levelCounter = GetComponent<LevelCounter>();
     }
 
     private void Start() => MoneyChanged?.Invoke(TotalMoney);
@@ -26,12 +28,14 @@ public class PlayerStats : MonoBehaviour
     {
         _counter.IncomeEarned += AddMoney;
         _board.SendReward += AddMoney;
+        _levelCounter.LevelUpViewOpened += AddMoney;
     }
 
     private void OnDisable()
     {
         _counter.IncomeEarned -= AddMoney;
         _board.SendReward -= AddMoney;
+        _levelCounter.LevelUpViewOpened -= AddMoney;
     }
 
     private void AddMoney(float money)

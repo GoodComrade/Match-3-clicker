@@ -6,8 +6,15 @@ using UnityEngine.EventSystems;
 using UnityEngine.Events;
 using DG.Tweening;
 
-public class Tile : MonoBehaviour 
+public class Tile : MonoBehaviour
 {
+    public event UnityAction<float> MatchFound;
+    public event UnityAction<int> ExpirienceGained;
+
+    public TileScriptableData Data { get; private set; }
+    public Image Image { get; private set; }
+    public Vector2 Index { get; private set; }
+
     private Vector3 _defaultImageSize;
     private Vector3 _destinationImageSize;
 
@@ -20,12 +27,6 @@ public class Tile : MonoBehaviour
     private Vector2[] _adjacentDirections = new Vector2[] { Vector2.up, Vector2.down, Vector2.left, Vector2.right };
     private Vector2[] _verticalDirections = new Vector2[] { Vector2.up, Vector2.down };
     private Vector2[] _horizontalDirections = new Vector2[] { Vector2.left, Vector2.right };
-
-    public TileScriptableData Data { get; private set; }
-    public Image Image { get; private set; }
-    public Vector2 Index { get; private set; }
-
-    public event UnityAction<float> FoundMatch;
 
     private void Awake() 
 	{
@@ -72,7 +73,8 @@ public class Tile : MonoBehaviour
     private void InvokeRewarding()
     {
         _popup.ActivatePopup();
-        FoundMatch?.Invoke(Data.Reward);
+        MatchFound?.Invoke(Data.Reward);
+        ExpirienceGained?.Invoke(Data.Expirience);
     }
 
     private void ApplyMatch()

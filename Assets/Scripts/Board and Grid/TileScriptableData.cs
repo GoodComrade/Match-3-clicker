@@ -7,12 +7,14 @@ public class TileScriptableData : ScriptableObject
 {
     [SerializeField] private Sprite _tile;
     [SerializeField] private float _baseReward;
+    [SerializeField] private int _gainingExpirience;
     [SerializeField] private TileType _tileType;
 
     private float _reward;
 
     public Sprite Tile => _tile;
     public float BaseReward => _baseReward;
+    public int Expirience => _gainingExpirience;
     public TileType TileType => _tileType;
     public float Reward => _reward;
     

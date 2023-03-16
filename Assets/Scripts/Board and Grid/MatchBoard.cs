@@ -7,6 +7,7 @@ using DG.Tweening;
 public class MatchBoard : MonoBehaviour
 {
     public event UnityAction<float> SendReward;
+    public event UnityAction<int> SendExpirience;
 
     public static MatchBoard Instance;
 
@@ -28,7 +29,7 @@ public class MatchBoard : MonoBehaviour
 
 	public List<TileScriptableData> TileDatas => _tileDatas;
 
-    private void Start () 
+    private void Awake() 
 	{
 		Instance = GetComponent<MatchBoard>();
 
@@ -43,16 +44,17 @@ public class MatchBoard : MonoBehaviour
     }
 
 	//unsubscribing match board from tiles
-	/*private void OnDisable()
+	private void OnDisable()
 	{
 		for(int x = 0; x < _tiles.GetLength(0) - 1; x++)
 		{
 			for(int y = 0; y < _tiles.GetLength(1) - 1; y++)
 			{
-				_tiles[x, y].FoundMatch -= OnMatchFound;
-			}
+				_tiles[x, y].MatchFound -= OnMatchFoundReward;
+                _tiles[x, y].ExpirienceGained -= OnMatchFoundLevel;
+            }
 		}
-	}*/
+	}
 
 	public void StartFindNullTiles()
 	{
@@ -115,7 +117,8 @@ public class MatchBoard : MonoBehaviour
 
                 TileScriptableData newTileData = possibleCharacters[Random.Range(0, possibleCharacters.Count)];
 				newTile.SetData(newTileData);
-				newTile.FoundMatch += OnMatchFound;
+				newTile.MatchFound += OnMatchFoundReward;
+				newTile.ExpirienceGained += OnMatchFoundLevel;
 
 				previousLeft[y] = newTileData;
 				previousBelow = newTileData;
@@ -194,8 +197,13 @@ public class MatchBoard : MonoBehaviour
         return possibleData[Random.Range(0, possibleData.Count)];
     }
 
-    private void OnMatchFound(float reward)
+    private void OnMatchFoundReward(float reward)
     {
         SendReward?.Invoke(reward);
+    }
+
+    private void OnMatchFoundLevel(int exp)
+    {
+        SendExpirience?.Invoke(exp);
     }
 }

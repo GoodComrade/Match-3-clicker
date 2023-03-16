@@ -19,14 +19,19 @@ public class PayDayView : MonoBehaviour
     private AudioSource _audioSource;
     
 
-    void Awake()
+    private void Awake()
     {
-        _audioSource = GetComponent<AudioSource>();
         _counter.PayDayOpenView += OnOpenView;
+        _audioSource = GetComponent<AudioSource>();
         _button.onClick.AddListener(OnCloseView);
         gameObject.SetActive(false);
     }
-    
+
+    /*private void OnDisable()
+    {
+        _counter.PayDayOpenView -= OnOpenView;
+    }
+    */
     private void OnOpenView(float income, float outcome, float taxes, float totalIncome)
     {
         if(gameObject.activeSelf == false)
@@ -49,6 +54,7 @@ public class PayDayView : MonoBehaviour
         }
 
     }
+
     private void OnCloseView()
     {
         gameObject.SetActive(false);

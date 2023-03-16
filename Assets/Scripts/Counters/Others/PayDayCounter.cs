@@ -5,7 +5,7 @@ using UnityEngine.Events;
 
 public class PayDayCounter : MonoBehaviour
 {
-    public UnityAction<float, float, float, float> PayDayOpenView;
+    public event UnityAction<float, float, float, float> PayDayOpenView;
 
     private DateCounter _dateCounter;
     private PlayerStats _playerStats;
@@ -72,7 +72,7 @@ public class PayDayCounter : MonoBehaviour
         _playerStats.PayTaxes(taxes);
 
         _totalIncomePerMonth = (_incomePerMonth - _outcomePerMonth) - taxes;
-        PayDayOpenView?.Invoke(_incomePerMonth, _outcomePerMonth, -taxes, _totalIncomePerMonth);
+        PayDayOpenView.Invoke(_incomePerMonth, _outcomePerMonth, -taxes, _totalIncomePerMonth);
 
         _incomePerMonth = 0;
         _outcomePerMonth = 0;
