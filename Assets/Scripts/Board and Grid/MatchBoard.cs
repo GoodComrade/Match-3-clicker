@@ -57,7 +57,7 @@ public class MatchBoard : MonoBehaviour
 	}
 
 	public void StartFindNullTiles()
-	{
+    {
 		if (_findNullTilesCoroutine != null)
 			StopCoroutine(_findNullTilesCoroutine);
 
@@ -86,6 +86,7 @@ public class MatchBoard : MonoBehaviour
         }
 
         CheckOtherMatches();
+		StartFindNullTiles();
     }
 
     private void CreateBoard (float xOffset, float yOffset) 
