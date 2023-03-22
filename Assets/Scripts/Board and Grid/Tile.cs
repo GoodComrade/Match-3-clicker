@@ -9,7 +9,7 @@ using DG.Tweening;
 public class Tile : MonoBehaviour
 {
     public event UnityAction<float> MatchFound;
-    public event UnityAction<int> ExpirienceGained;
+    public event UnityAction<float> ExpirienceGained;
 
     public TileScriptableData Data { get; private set; }
     public Image Image { get; private set; }
@@ -65,6 +65,7 @@ public class Tile : MonoBehaviour
             _popup.Init(data.Reward);
         }
     }
+
     public void StartMatchAnimation()
     {
         Image.transform.DOScale(new Vector3(0, 0, 0), 0.1f).OnComplete(ApplyMatch);
@@ -193,7 +194,7 @@ public class Tile : MonoBehaviour
 		{
             InvokeRewarding();
             StartMatchAnimation();
-            Debug.Log("Match");
+            Debug.Log($"{Data.Reward}");
 			_matchFound = false;
             MatchBoard.Instance.StartFindNullTiles();
         }

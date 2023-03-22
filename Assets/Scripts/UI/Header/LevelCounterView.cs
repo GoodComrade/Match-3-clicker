@@ -31,7 +31,7 @@ public class LevelCounterView : MonoBehaviour
 
     private void InitValues()
     {
-        _slider.maxValue = _counter.MaxExpirienceAmountAtStart;
+        _slider.maxValue = _counter.MaxExpirienceAmount;
         _slider.value = _counter.MinExpirienceAmount;
         _text.text = _counter.CurrentLevel.ToString();
     }
@@ -40,10 +40,9 @@ public class LevelCounterView : MonoBehaviour
     {
         _slider.maxValue = maxExpirienceValue;
         _text.text = levelValue.ToString();
-        
     }
 
-    private void OnExpirienceValueChanged(int value)
+    private void OnExpirienceValueChanged(float value)
     {
         _slider.value += value;
 

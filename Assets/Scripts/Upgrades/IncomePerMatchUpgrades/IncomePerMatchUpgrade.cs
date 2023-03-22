@@ -21,6 +21,9 @@ public class IncomePerMatchUpgrade : IncomeUpgradeBase
         base.IncreaseMultiplier();
 
         if (IsBuyed)
+        {
             ValueIncreased.Invoke(Multiplier, Data.UpgradeType);
+        }
+            
     }
 }

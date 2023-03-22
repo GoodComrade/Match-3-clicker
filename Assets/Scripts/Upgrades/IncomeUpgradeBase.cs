@@ -36,10 +36,11 @@ public abstract class IncomeUpgradeBase : MonoBehaviour
         _audioSource?.Play();
         Money.RemoveMoney(UpgradeCost);
 
+        UpgradeCost += UpgradeCost * Multiplier;
+
         if (IsBuyed)
         {
-            UpgradeCost += UpgradeCost * Multiplier;
-            Multiplier += Data.BaseMultiplier / 0.5f;
+            Multiplier *= 1.1f;
         }
 
         RoundValues();

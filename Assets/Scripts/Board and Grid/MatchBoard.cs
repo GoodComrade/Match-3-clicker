@@ -7,7 +7,7 @@ using DG.Tweening;
 public class MatchBoard : MonoBehaviour
 {
     public event UnityAction<float> SendReward;
-    public event UnityAction<int> SendExpirience;
+    public event UnityAction<float> SendExpirience;
 
     public static MatchBoard Instance;
 
@@ -202,7 +202,7 @@ public class MatchBoard : MonoBehaviour
         SendReward?.Invoke(reward);
     }
 
-    private void OnMatchFoundLevel(int exp)
+    private void OnMatchFoundLevel(float exp)
     {
         SendExpirience?.Invoke(exp);
     }

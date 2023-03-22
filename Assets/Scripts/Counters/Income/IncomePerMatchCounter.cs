@@ -42,7 +42,7 @@ public class IncomePerMatchCounter : IncomeCounterBase
         for(int i = 0; i < Upgrades.Count; i++)
         {
             if ((int)_matchBoard.TileDatas[i].TileType == (int)upgradeType)
-                _matchBoard.TileDatas[i].SetReward(value);
+                _matchBoard.TileDatas[i].SetRewards(value);
         }
     }
 }

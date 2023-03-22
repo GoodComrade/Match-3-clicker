@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _tile: {fileID: 1890596530, guid: 40db09c91da2dfe49a784aeb96dc04a5, type: 3}
   _baseReward: 3
-  _gainingExpirience: 3
+  _baseExpirience: 3
   _tileType: 2
