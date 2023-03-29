@@ -1,7 +1,6 @@
 using TMPro;
 using UnityEngine;
 
-[RequireComponent(typeof(TMP_Text))]
 public class PlayerMoneyView : MonoBehaviour
 {
     [SerializeField] private PlayerStats _money;
