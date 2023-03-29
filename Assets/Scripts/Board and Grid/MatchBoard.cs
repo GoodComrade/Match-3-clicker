@@ -56,12 +56,12 @@ public class MatchBoard : MonoBehaviour
 		}
 	}
 
-	public void StartFindNullTiles()
+	public void StartFindNullTiles(float startDelay = 1f)
     {
 		if (_findNullTilesCoroutine != null)
 			StopCoroutine(_findNullTilesCoroutine);
 
-		_findNullTilesCoroutine = StartCoroutine(FindNullTiles());
+		_findNullTilesCoroutine = StartCoroutine(FindNullTiles(startDelay));
 	}
 
 	public void SetPreviousSelected(Tile tile)
@@ -69,7 +69,7 @@ public class MatchBoard : MonoBehaviour
 		PreviousSelected = tile;
 	}
 
-    public IEnumerator FindNullTiles(float startDelay = 1f)
+    public IEnumerator FindNullTiles(float startDelay)
     {
 		yield return new WaitForSeconds(startDelay);
 
@@ -86,7 +86,6 @@ public class MatchBoard : MonoBehaviour
         }
 
         CheckOtherMatches();
-		StartFindNullTiles();
     }
 
     private void CreateBoard (float xOffset, float yOffset) 

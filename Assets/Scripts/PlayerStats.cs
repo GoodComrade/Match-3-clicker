@@ -41,7 +41,7 @@ public class PlayerStats : MonoBehaviour
     private void AddMoney(float money)
     {
         TotalMoney += money;
-        TotalMoney = Mathf.Round(TotalMoney * 10f) / 10f;
+        TotalMoney = Constants.RoundValue(TotalMoney, Constants.TenDivider);
 
         MoneyChanged?.Invoke(TotalMoney);
         MonthIncomeChanged?.Invoke(money);
@@ -50,7 +50,7 @@ public class PlayerStats : MonoBehaviour
     public void RemoveMoney(float cost)
     {
         TotalMoney -= cost;
-        TotalMoney = Mathf.Round(TotalMoney * 10f) / 10f;
+        TotalMoney = Constants.RoundValue(TotalMoney, Constants.TenDivider);
 
         MoneyChanged?.Invoke(TotalMoney);
         MonthOutcomeChanged?.Invoke(cost);
@@ -59,7 +59,7 @@ public class PlayerStats : MonoBehaviour
     public void PayTaxes(float tax)
     {
         TotalMoney -= tax;
-        TotalMoney = Mathf.Round(TotalMoney * 10f) / 10f;
+        TotalMoney = Constants.RoundValue(TotalMoney, Constants.TenDivider);
 
         MoneyChanged?.Invoke(TotalMoney);
     }

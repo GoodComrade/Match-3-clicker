@@ -68,7 +68,7 @@ public abstract class IncomeUpgradeBase : MonoBehaviour
     }
     private void RoundValues()
     {
-        UpgradeCost = Mathf.Round(UpgradeCost * 100f) / 100f;
-        Multiplier = Mathf.Round(Multiplier * 100f) / 100f;
+        UpgradeCost = Constants.RoundValue(UpgradeCost, Constants.HundredDivider);
+        Multiplier = Constants.RoundValue(Multiplier, Constants.HundredDivider);
     }
 }

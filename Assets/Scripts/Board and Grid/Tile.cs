@@ -196,9 +196,10 @@ public class Tile : MonoBehaviour
             StartMatchAnimation();
             Debug.Log($"{Data.Reward}");
 			_matchFound = false;
-            MatchBoard.Instance.StartFindNullTiles();
         }
-	}
+
+        MatchBoard.Instance.StartFindNullTiles();
+    }
 
     private void ClearMatch(Vector2[] paths)
     {

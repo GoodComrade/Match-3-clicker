@@ -40,14 +40,14 @@ public class PayDayCounter : MonoBehaviour
 
     private void CalculateIncomePerMonth(float value)
     {
-        value = Mathf.Round(value * 100f) / 100f;
         _incomePerMonth += value;
+        _incomePerMonth = Constants.RoundValue(_incomePerMonth, Constants.HundredDivider);
     }
 
     private void CalculateOutcomePerMonth(float value)
     {
-        value = Mathf.Round(value * 100f) / 100f;
         _outcomePerMonth += value;
+        _outcomePerMonth = Constants.RoundValue(_incomePerMonth, Constants.HundredDivider);
     }
 
     private float CalculateTaxes()

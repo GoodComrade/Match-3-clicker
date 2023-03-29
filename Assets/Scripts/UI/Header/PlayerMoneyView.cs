@@ -21,7 +21,7 @@ public class PlayerMoneyView : MonoBehaviour
         if (value >= Constants.ThousandDivider)
         {
             value /= Constants.ThousandDivider;
-            value = value = Mathf.Round(value * Constants.TenDivider) / Constants.TenDivider; ;
+            value = Constants.RoundValue(value, Constants.TenDivider);
             _viewText.text = $"$ {value}K";
         }
         

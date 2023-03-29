@@ -12,4 +12,10 @@ public class Constants : MonoBehaviour
     public static readonly int FebMaxDay = 28;
     public static readonly int ShortMonthMaxDay = 30;
     public static readonly int MaxMonth = 12;
+
+    public static float RoundValue(float value, int divider)
+    {
+        float roundedValue = Mathf.Round(value * divider) / divider;
+        return roundedValue;
+    }
 }
