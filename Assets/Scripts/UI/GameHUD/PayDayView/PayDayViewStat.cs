@@ -1,7 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using TMPro;
+using UnityEngine;
 
 public class PayDayViewStat : MonoBehaviour
 {
@@ -9,6 +7,6 @@ public class PayDayViewStat : MonoBehaviour
 
     public void SetTextValue(string toastText, float value)
     {
-        _text.text = $"{toastText} ${value}"; 
+        _text.text = $"{toastText} ${value}";
     }
 }

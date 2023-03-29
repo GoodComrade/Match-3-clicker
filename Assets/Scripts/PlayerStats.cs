@@ -1,8 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
+[RequireComponent(typeof(IncomePerTickCounter))]
+[RequireComponent(typeof(MatchBoard))]
+[RequireComponent(typeof(LevelCounter))]
 public class PlayerStats : MonoBehaviour
 {
     public event UnityAction<float> MoneyChanged;

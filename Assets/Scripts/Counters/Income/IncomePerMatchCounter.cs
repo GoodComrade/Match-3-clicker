@@ -1,9 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.Tilemaps;
 
+[RequireComponent(typeof(MatchBoard))]
 public class IncomePerMatchCounter : IncomeCounterBase
 {
     private MatchBoard _matchBoard;
@@ -16,7 +14,7 @@ public class IncomePerMatchCounter : IncomeCounterBase
 
     private void OnDisable()
     {
-        foreach(IncomePerMatchUpgrade upgrade in Upgrades)
+        foreach (IncomePerMatchUpgrade upgrade in Upgrades)
         {
             upgrade.ValueIncreased -= ApplyMultiplier;
         }
@@ -39,7 +37,7 @@ public class IncomePerMatchCounter : IncomeCounterBase
 
     private void ApplyMultiplier(float value, UpgradeType upgradeType)
     {
-        for(int i = 0; i < Upgrades.Count; i++)
+        for (int i = 0; i < Upgrades.Count; i++)
         {
             if ((int)_matchBoard.TileDatas[i].TileType == (int)upgradeType)
                 _matchBoard.TileDatas[i].SetRewards(value);

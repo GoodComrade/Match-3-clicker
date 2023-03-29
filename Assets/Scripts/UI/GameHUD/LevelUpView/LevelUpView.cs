@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -16,11 +14,6 @@ public class LevelUpView : MonoBehaviour
         _button.onClick.AddListener(OnCloseView);
         gameObject.SetActive(false);
     }
-
-    /*private void OnDisable()
-    {
-        _counter.LevelUpViewOpened -= OnOpenView;
-    }*/
 
     private void OnOpenView(float income)
     {

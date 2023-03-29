@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "Base Upgrade Model", menuName = "Clicker Data Models/New upgrade data model")]

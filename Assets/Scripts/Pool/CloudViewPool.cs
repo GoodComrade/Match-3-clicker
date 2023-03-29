@@ -32,7 +32,7 @@ public class CloudViewPool : PoolBase
 
     private IEnumerator SpawnCloud()
     {
-        while(true)
+        while (true)
         {
             yield return new WaitForSeconds(_spawnDelayCounter);
 
@@ -43,12 +43,12 @@ public class CloudViewPool : PoolBase
     private void EnableSelectedPoolObject()
     {
         GameObject poolObject = GetPooledObject();
-        if(poolObject != null)
+        if (poolObject != null)
         {
-            
+
             poolObject.SetActive(true);
         }
-            
+
     }
 
     protected override void InitializePool()
@@ -57,7 +57,7 @@ public class CloudViewPool : PoolBase
 
         _cloudPool = new List<CloudView>();
 
-        foreach(GameObject poolObject in PooledObjects)
+        foreach (GameObject poolObject in PooledObjects)
             _cloudPool.Add(poolObject.GetComponent<CloudView>());
 
         foreach (CloudView cloud in _cloudPool)

@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -41,8 +40,8 @@ public class ActionPanel : MonoBehaviour
 
     private void DeactivateAllPanels()
     {
-        foreach(GameObject panel in _panels)
-            if(panel.activeSelf == true)
+        foreach (GameObject panel in _panels)
+            if (panel.activeSelf == true)
                 panel.SetActive(false);
     }
 }

@@ -1,8 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
+[RequireComponent(typeof(DateCounter))]
+[RequireComponent(typeof(PlayerStats))]
 public class PayDayCounter : MonoBehaviour
 {
     public event UnityAction<float, float, float, float> PayDayOpenView;

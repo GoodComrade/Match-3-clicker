@@ -1,8 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+[RequireComponent(typeof(AudioSource))]
 public class PayDayView : MonoBehaviour
 {
     [Header("UI")]
@@ -17,7 +16,7 @@ public class PayDayView : MonoBehaviour
     [SerializeField] private AudioClip _winClip;
     [SerializeField] private AudioClip _looseClip;
     private AudioSource _audioSource;
-    
+
 
     private void Awake()
     {
@@ -26,23 +25,17 @@ public class PayDayView : MonoBehaviour
         _button.onClick.AddListener(OnCloseView);
         gameObject.SetActive(false);
     }
-
-    /*private void OnDisable()
-    {
-        _counter.PayDayOpenView -= OnOpenView;
-    }
-    */
     private void OnOpenView(float income, float outcome, float taxes, float totalIncome)
     {
-        if(gameObject.activeSelf == false)
+        if (gameObject.activeSelf == false)
             gameObject.SetActive(true);
 
         _incomeToast.SetTextValue("IncomePerMonth:", income);
-        _outcomeToast.SetTextValue("IncomePerMonth:", - outcome);
+        _outcomeToast.SetTextValue("IncomePerMonth:", -outcome);
         _taxToast.SetTextValue("Taxes:", taxes);
         _totalIncomeToast.SetTextValue("TotalIncome:", totalIncome);
 
-        if(totalIncome <= 0)
+        if (totalIncome <= 0)
         {
             _audioSource.clip = _looseClip;
             _audioSource.Play();

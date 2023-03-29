@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "Base tile Model", menuName = "Clicker Data Models/New tile data model")]
@@ -18,13 +16,13 @@ public class TileScriptableData : ScriptableObject
     public float Expirience => _expirience;
     public TileType TileType => _tileType;
     public float Reward => _reward;
-    
+
     public void SetRewards(float value)
     {
         _reward += _baseReward * value;
         _expirience += _baseExpirience * value;
     }
-    
+
     public void SetBaseReward()
     {
         _reward = _baseReward;

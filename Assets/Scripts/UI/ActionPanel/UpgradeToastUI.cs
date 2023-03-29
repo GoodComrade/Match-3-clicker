@@ -1,10 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
+[RequireComponent(typeof(IncomeUpgradeBase))]
 public class UpgradeToastUI : MonoBehaviour
 {
     [SerializeField] private Button _upgradeButton;
@@ -21,7 +19,7 @@ public class UpgradeToastUI : MonoBehaviour
         _buttonText = _upgradeButton.GetComponentInChildren<TMP_Text>();
         _visual = GetComponentInChildren<CanvasGroup>();
 
-        if(_toastLogic != null)
+        if (_toastLogic != null)
         {
             _toastLogic.ValuesUpdated += OnValuesChanged;
             _upgradeButton.onClick.AddListener(_toastLogic.IncreaseMultiplier);
@@ -39,7 +37,7 @@ public class UpgradeToastUI : MonoBehaviour
         else
             _upgradeButton.interactable = false;
 
-        if(_visual.alpha < 1f && _toastLogic.IsBuyed == true)
+        if (_visual.alpha < 1f && _toastLogic.IsBuyed == true)
             _visual.alpha = 1f;
 
         if (_toastLogic.IsBuyed == true)
@@ -65,6 +63,6 @@ public class UpgradeToastUI : MonoBehaviour
             cost = Mathf.Round(cost * Constants.TenDivider) / Constants.TenDivider;
             _buttonText.text = $"${cost}k";
         }
-        
+
     }
 }

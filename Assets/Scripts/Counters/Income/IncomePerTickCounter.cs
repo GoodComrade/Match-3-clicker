@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
@@ -38,7 +37,7 @@ public class IncomePerTickCounter : IncomeCounterBase
 
     private IEnumerator AppllyIncome()
     {
-        while(true)
+        while (true)
         {
             yield return new WaitForSeconds(_incomeDelay);
 
@@ -64,9 +63,16 @@ public class IncomePerTickCounter : IncomeCounterBase
             {
                 switch (upgrade.Data.UpgradeType)
                 {
-                    case UpgradeType.IncomeAmount: totalMultiplier += upgrade.GetTotalMultiplier(); break;
-                    case UpgradeType.IncomeDelay: totalDelay += upgrade.GetTotalMultiplier(); break;
-                    default: break;
+                    case UpgradeType.IncomeAmount:
+                        totalMultiplier += upgrade.GetTotalMultiplier();
+                        break;
+
+                    case UpgradeType.IncomeDelay:
+                        totalDelay += upgrade.GetTotalMultiplier();
+                        break;
+
+                    default:
+                        break;
                 }
             }
         }

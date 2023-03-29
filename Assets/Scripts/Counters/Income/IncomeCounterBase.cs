@@ -1,8 +1,7 @@
-using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
+[RequireComponent(typeof(PlayerStats))]
 public abstract class IncomeCounterBase : MonoBehaviour
 {
     [SerializeField] protected UpgradeToastUI ToastPrefab;

@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -9,7 +8,7 @@ public class WorkersView : MonoBehaviour
     [SerializeField]
     private List<WorkerView> _workersList;
 
-    
+
     private void Start()
     {
         SubscribeToUpgrades();
@@ -23,9 +22,9 @@ public class WorkersView : MonoBehaviour
 
     private void SubscribeToUpgrades()
     {
-        foreach(IncomeUpgradeBase upgrade in _ipmCounter.UpgradesReadonlyList)
+        foreach (IncomeUpgradeBase upgrade in _ipmCounter.UpgradesReadonlyList)
         {
-            if(upgrade.Data.UpgradeType != UpgradeType.IncomeDelay && upgrade.Data.UpgradeType != UpgradeType.IncomeAmount)
+            if (upgrade.Data.UpgradeType != UpgradeType.IncomeDelay && upgrade.Data.UpgradeType != UpgradeType.IncomeAmount)
                 upgrade.UpgradeBuyed += ActivateWorkerView;
         }
     }
@@ -43,7 +42,7 @@ public class WorkersView : MonoBehaviour
     {
         GameObject workerViewObj = null;
 
-        switch(upgradeType)
+        switch (upgradeType)
         {
             case UpgradeType.RedTileUpgrade:
                 workerViewObj = GetWorkerView(TileType.Red).gameObject;
@@ -66,7 +65,7 @@ public class WorkersView : MonoBehaviour
                 break;
         }
 
-        if(workerViewObj != null)
+        if (workerViewObj != null)
             workerViewObj.SetActive(true);
     }
 

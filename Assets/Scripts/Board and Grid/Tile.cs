@@ -1,11 +1,10 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿using DG.Tweening;
 using System.Collections.Generic;
-using UnityEngine.UI;
-using UnityEngine.EventSystems;
+using UnityEngine;
 using UnityEngine.Events;
-using DG.Tweening;
+using UnityEngine.UI;
 
+[RequireComponent(typeof(Button))]
 public class Tile : MonoBehaviour
 {
     public event UnityAction<float> MatchFound;
@@ -20,7 +19,7 @@ public class Tile : MonoBehaviour
 
     private IncomePopup _popup;
     private Button _button;
-	private bool _isSelected = false;
+    private bool _isSelected = false;
     private bool _matchFound = false;
     private Tween _tween;
 
@@ -28,32 +27,27 @@ public class Tile : MonoBehaviour
     private Vector2[] _verticalDirections = new Vector2[] { Vector2.up, Vector2.down };
     private Vector2[] _horizontalDirections = new Vector2[] { Vector2.left, Vector2.right };
 
-    private void Awake() 
-	{
+    private void Awake()
+    {
         Image = GetComponentInChildren<Image>();
-		_button = GetComponent<Button>();
+        _button = GetComponent<Button>();
         _popup = GetComponentInChildren<IncomePopup>();
 
-		if (_button != null)
-			_button.onClick.AddListener(OnSelected);
+        if (_button != null)
+            _button.onClick.AddListener(OnSelected);
 
         _defaultImageSize = Image.transform.localScale;
         _destinationImageSize = _defaultImageSize / 2f;
     }
 
-	/*private void OnDisable()
-	{
-		_button.onClick.RemoveListener(OnSelected);	
-	}*/
+    public void SetIndex(int x, int y)
+    {
+        Index = new Vector2(x, y);
+    }
 
-	public void SetIndex(int x, int y)
-	{
-		Index = new Vector2(x, y);
-	}
-
-	public void SetData(TileScriptableData data)
-	{
-        if(data == null)
+    public void SetData(TileScriptableData data)
+    {
+        if (data == null)
         {
             Data = null;
             Image.sprite = null;
@@ -84,15 +78,15 @@ public class Tile : MonoBehaviour
         Image.transform.localScale = transform.localScale;
     }
 
-	private void Select() 
-	{
-		_isSelected = true;
+    private void Select()
+    {
+        _isSelected = true;
         StartSelectAnimation();
         MatchBoard.Instance.SetPreviousSelected(this);
-	}
+    }
 
-	private void Deselect() 
-	{
+    private void Deselect()
+    {
         _isSelected = false;
         StopSelectAnimation();
         MatchBoard.Instance.SetPreviousSelected(null);
@@ -111,21 +105,21 @@ public class Tile : MonoBehaviour
         _tween.Kill();
     }
 
-    private void OnSelected() 
-	{
+    private void OnSelected()
+    {
         Tile previousSelected = MatchBoard.Instance.PreviousSelected;
 
-		if (Image.sprite == null || MatchBoard.Instance.IsShifting)
+        if (Image.sprite == null || MatchBoard.Instance.IsShifting)
             return;
 
-        if (_isSelected) 
-		{
-			Deselect();
-			return;
-		}
+        if (_isSelected)
+        {
+            Deselect();
+            return;
+        }
 
         if (previousSelected == null)
-        { 
+        {
             Select();
             Debug.Log("Selected first");
         }
@@ -147,8 +141,8 @@ public class Tile : MonoBehaviour
         }
     }
 
-    private bool TryGetAllAdjacentTiles(Vector2[] directions) 
-	{
+    private bool TryGetAllAdjacentTiles(Vector2[] directions)
+    {
         List<Vector2> adjacentTiles = new List<Vector2>();
 
         for (int i = 0; i < directions.Length; i++)
@@ -182,20 +176,20 @@ public class Tile : MonoBehaviour
         Deselect();
     }
 
-    public void ClearAllMatches() 
-	{
-		if (Image.sprite == null)
-			return;
+    public void ClearAllMatches()
+    {
+        if (Image.sprite == null)
+            return;
 
-		ClearMatch(_horizontalDirections);
-		ClearMatch(_verticalDirections);
+        ClearMatch(_horizontalDirections);
+        ClearMatch(_verticalDirections);
 
-		if (_matchFound) 
-		{
+        if (_matchFound)
+        {
             InvokeRewarding();
             StartMatchAnimation();
             Debug.Log($"{Data.Reward}");
-			_matchFound = false;
+            _matchFound = false;
         }
 
         MatchBoard.Instance.StartFindNullTiles();
@@ -230,7 +224,7 @@ public class Tile : MonoBehaviour
         int matchDepth = 1;
         Tile[,] allTiles = MatchBoard.Instance.Tiles;
         Vector2 maxLenght = new Vector2(allTiles.GetLength(0) - 1, allTiles.GetLength(1) - 1);
-        List <Tile> matchingTiles = new List<Tile>();
+        List<Tile> matchingTiles = new List<Tile>();
 
         Vector2 directionToMatchFind = FindIndex(castDir, matchDepth);
 
@@ -256,8 +250,8 @@ public class Tile : MonoBehaviour
         return matchingTiles;
     }
 
-	private Vector2 FindIndex(Vector2 castDir, int castRange)
-	{
+    private Vector2 FindIndex(Vector2 castDir, int castRange)
+    {
         Vector2 tempIndex = new Vector2();
 
         switch (castDir)
@@ -279,8 +273,8 @@ public class Tile : MonoBehaviour
                 break;
         }
 
-		if (tempIndex.x < 0)
-			tempIndex.x = -1;
+        if (tempIndex.x < 0)
+            tempIndex.x = -1;
 
         if (tempIndex.y < 0)
             tempIndex.y = -1;

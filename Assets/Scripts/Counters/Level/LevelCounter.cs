@@ -1,8 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
+[RequireComponent(typeof(MatchBoard))]
+[RequireComponent(typeof(XpManager))]
 public class LevelCounter : MonoBehaviour
 {
     public const string EXPIRIENCE_PER_LEVEL = "ExpiriencePerLevel";

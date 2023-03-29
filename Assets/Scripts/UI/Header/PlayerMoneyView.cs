@@ -1,8 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
+[RequireComponent(typeof(TMP_Text))]
 public class PlayerMoneyView : MonoBehaviour
 {
     [SerializeField] private PlayerStats _money;
@@ -24,6 +23,6 @@ public class PlayerMoneyView : MonoBehaviour
             value = Constants.RoundValue(value, Constants.TenDivider);
             _viewText.text = $"$ {value}K";
         }
-        
+
     }
 }

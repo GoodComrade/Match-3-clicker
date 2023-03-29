@@ -1,8 +1,9 @@
+using DG.Tweening;
 using TMPro;
 using UnityEngine;
-using DG.Tweening;
 
-
+[RequireComponent(typeof(RectTransform))]
+[RequireComponent(typeof(CanvasGroup))]
 public class IncomePopup : MonoBehaviour
 {
     private TMP_Text _text;
@@ -20,7 +21,7 @@ public class IncomePopup : MonoBehaviour
         _canvasGroup = GetComponent<CanvasGroup>();
         _text = GetComponentInChildren<TMP_Text>();
 
-        if(_rect != null)
+        if (_rect != null)
             _destinationSizeDelta = _rect.sizeDelta;
     }
 

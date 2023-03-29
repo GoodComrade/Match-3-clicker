@@ -1,8 +1,6 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
-using static UnityEngine.CullingGroup;
 
 public class DateCounter : MonoBehaviour
 {
@@ -41,7 +39,7 @@ public class DateCounter : MonoBehaviour
 
             _day++;
 
-            if (_day > Constants.FebMaxDay && _month == 2 
+            if (_day > Constants.FebMaxDay && _month == 2
                 || _day > Constants.ShortMonthMaxDay && (_month == 4 || _month == 6 || _month == 9 || _month == 11)
                 || _day > Constants.MaxDay)
                 ResetDayAndMonth();
